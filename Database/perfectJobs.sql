@@ -22,7 +22,7 @@ USE `mydb` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`aspirantes` (
   `idAspirantes` INT NOT NULL AUTO_INCREMENT,
-  `Nombre` VARCHAR(50) NOT NULL,
+  `Nombre` VARCHAR(150) NOT NULL,
   `Apellidos` VARCHAR(50) NOT NULL,
   `fechaNacimiento` DATE NOT NULL,
   `Género` VARCHAR(10) NULL DEFAULT NULL,
@@ -45,7 +45,7 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`empresa` (
   `idEmpresa` INT NOT NULL AUTO_INCREMENT,
-  `Nombre` VARCHAR(50) NOT NULL,
+  `Nombre` VARCHAR(150) NOT NULL,
   `Dirección` VARCHAR(50) NULL DEFAULT NULL,
   `informaciónContacto` VARCHAR(50) NULL DEFAULT NULL,
   `correoElectrónico` VARCHAR(50) NOT NULL,
@@ -62,17 +62,17 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`empleos` (
   `idEmpleos` INT NOT NULL AUTO_INCREMENT,
-  `Título` VARCHAR(50) NOT NULL,
+  `Título` VARCHAR(150) NOT NULL,
   `Ubicación` VARCHAR(50) NULL DEFAULT NULL,
-  `Descripción` VARCHAR(50) NULL DEFAULT NULL,
+  `Descripción` VARCHAR(15000) NULL DEFAULT NULL,
   `salarioMIN` DECIMAL(10,0) NULL DEFAULT NULL,
   `salarioMAX` DECIMAL(10,0) NULL DEFAULT NULL,
   `tipoPuesto` VARCHAR(50) NOT NULL,
   `Idiomas` VARCHAR(50) NULL DEFAULT NULL,
-  `Escolaridad` VARCHAR(50) NULL DEFAULT NULL,
-  `experienciaLaboral` VARCHAR(50) NULL DEFAULT NULL,
-  `softSkills` VARCHAR(50) NULL DEFAULT NULL,
-  `hardSkills` VARCHAR(50) NULL DEFAULT NULL,
+  `Escolaridad` VARCHAR(100) NULL DEFAULT NULL,
+  `experienciaLaboral` VARCHAR(200) NULL DEFAULT NULL,
+  `softSkills` VARCHAR(300) NULL DEFAULT NULL,
+  `hardSkills` VARCHAR(300) NULL DEFAULT NULL,
   `Remoto` TINYINT NULL DEFAULT NULL,
   `fechaPublicación` DATE NULL DEFAULT NULL,
   `Empresa_idEmpresa` INT NOT NULL,

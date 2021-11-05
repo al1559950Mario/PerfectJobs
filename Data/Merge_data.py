@@ -47,5 +47,5 @@ data_completa['Remoto'] = data_completa.Remoto.astype('bool')
 #fecha de acceso a fecha y,m,d
 data_completa["Accessed_Date"] = pd.to_datetime(data_completa["Accessed_Date"], format="%Y-%m-%d")
 #guardar data
-data_completa.to_csv("Data\Data_completa_{}.csv".format(date(year, month, day).strftime('%Y%m%d')))
+data_completa.to_csv("Data\Data_completa_{}.csv".format(date(year, month, day).strftime('%Y%m%d')), index=False)
 
