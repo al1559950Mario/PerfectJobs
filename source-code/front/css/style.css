@@ -116,3 +116,47 @@ input[name="busqueda"]:focus {
 .nav-btn:hover {
   color: var(--light-main-color);
 }
+
+/* Login */
+
+.col-container {
+    display: table; /* Make the container element behave like a table */
+    width: 100%; /* Set full-width to expand the whole page */
+}
+
+.col {
+    display: table-cell; /* Make elements inside the container behave like table cells */
+}
+
+.button {
+  background-color: none; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-size: 30px;
+}
+
+.button1 {
+  background-color: var(--light-body-color);
+  color: black;
+  border: 2px solid #1666c5;
+  padding: 15px 25px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 30px;
+}
+
+.login {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+}
+
+.title {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  color: #1666c5
+}
