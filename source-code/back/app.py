@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_mysqldb import MySQL
 
 #Se crea una aplicacion flask
@@ -16,7 +16,10 @@ mysql=MySQL(app)
 #@app.route("") se definen rutas o enlaces en la pagina web es decir interfaces.
 @app.route("/")
 def Index():
-    return 'Hello World'
+    return render_template('index.html')
+@app.route("/login.html")
+def login():
+    return render_template('login.html')
 @app.route("/prueba_db")
 def prueba_db():
     cur=mysql.connection.cursor()
