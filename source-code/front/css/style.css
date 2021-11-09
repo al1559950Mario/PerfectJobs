@@ -255,6 +255,8 @@ input[name="busqueda"]:focus {
   border-right: none;
 }
 
+
+
 /****************** Login *******************/
 
 .col-container {
@@ -267,7 +269,7 @@ input[name="busqueda"]:focus {
 }
 
 .button {
-  background-color: none; /* Green */
+  background-color: none;
   border: none;
   color: white;
   padding: 15px 32px;
@@ -298,3 +300,23 @@ input[name="busqueda"]:focus {
   font-weight: 400;
   color: #1666c5;
 }
+
+#logo-login {
+  width: 400px;
+  height: 400px;
+  margin: 0px auto;
+  font-family: "Fira Sans", sans-serif;
+  font-size: 20rem;
+  text-align: center;
+  color: var(--light-body-color);
+  background-color: var(--light-main-color);
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px var(--light-shadow-box);
+}
+
+#logo-login > a {
+  display: block;
+  color: var(--light-box-color);
+  text-decoration: none;
+}
+
