@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_mysqldb import MySQL
 
 #Se crea una aplicacion flask
@@ -20,6 +20,13 @@ def Index():
 @app.route("/login.html")
 def login():
     return render_template('login.html')
+@app.route("/loginbtn", methods=['POST'])
+def loginbtn():
+    if request.method == "POST":
+        correo=request.form["correo"]
+        psw=request.form["contraseña"]
+        print(correo,"\n",psw)
+    return "recibido"
 @app.route("/prueba_db")
 def prueba_db():
     cur=mysql.connection.cursor()
