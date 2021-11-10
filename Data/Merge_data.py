@@ -5,7 +5,7 @@ import os.path
 
 year = 2021
 month = 11
-day = 3
+day = 9
 #carpeta
 BASE_DIR = Path(__file__).resolve().parent
 print("carpeta: ", BASE_DIR)
