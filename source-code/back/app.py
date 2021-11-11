@@ -12,6 +12,7 @@ app.config['MYSQL_DB']='bfrbtunhryqfh3eywkgx'
 
 mysql=MySQL(app)
 
+#Es para especificar como va ir protegida nuestra sesion
 app.secret_key = b'w\xbdE[p+\xf5\xf8-\xc9\xbc~\x9f\xd1y\x14'
 
 #@app.route("") se definen rutas o enlaces en la pagina web es decir interfaces.
@@ -26,9 +27,17 @@ def login():
 def registroAspirantes():
     return render_template('registroAspirantes.html')
 
-@app.route("/index.html")
+@app.route("/registroEmpresa.html")
+def registroEmpresa():
+    return render_template('registroEmpresa.html')
+
+@app.route("/registroUsuarios.html")
+def registroUsuario():
+    return render_template('registroUsuarios.html')
+
+@app.route("/homepage")
 def index():
-    return render_template('index.html')
+    return render_template('homepage.html')
 
 @app.route("/hacer_login", methods=["POST"])
 def hacer_login():
@@ -48,7 +57,7 @@ def hacer_login():
         if len(results)==1:
             session["usuario"] = correo
             #home de aspirante
-            return redirect("/index.html")
+            return redirect("/homepage")
         else:
             cursor.execute(sql_empresas)
             results = cursor.fetchall()
@@ -56,7 +65,7 @@ def hacer_login():
             if len(results)==1:
                 session["usuario"] = correo
                 #home de empresa
-                return redirect("/index.html")
+                return redirect("/homepage")
             else:
                 # Si NO coincide, lo regresamos
                 flash("Correo o contraseña incorrectos")
@@ -70,9 +79,9 @@ def hacer_login():
 def antes_de_cada_peticion():
     ruta = request.path
     # Si no ha iniciado sesión y no quiere ir a algo relacionado al login, lo redireccionamos al login
-    if not 'usuario' in session and ruta != "/login.html" and ruta != "/hacer_login" and ruta != "/logout" and not ruta.startswith("/static"):
-        flash("Inicia sesión para continuar")
-        return redirect("/login.html")
+    #if not 'usuario' in session and ruta != "/login.html" and ruta != "/hacer_login" and ruta != "/logout" and not ruta.startswith("/static"):
+    #    flash("Inicia sesión para continuar")
+    #    return redirect("/login.html")
     # Si ya ha iniciado, no hacemos nada, es decir lo dejamos pasar
 
 # Cerrar sesión
@@ -80,6 +89,8 @@ def antes_de_cada_peticion():
 def logout():
     session.pop("usuario", None)
     return redirect("/login")
+
+
 
 @app.route("/prueba_db")
 def prueba_db():
@@ -90,50 +101,6 @@ def prueba_db():
     print(consulta)
     cur.execute("show tables")
     return "\n\nProbando db"
-@app.route("/registro_aspirantes/registro")
-def registro_aspirantes():
-    return 'registro_aspirantes'
-@app.route("/registro_empresa/registro")
-def registro_empresa():
-    return 'Registro empresa'
-@app.route("/aspirante_home/empleos_postulados")
-def empleos_postulados():
-    return 'Hello World'
-@app.route("/aspirante_home/buscar_empleo")
-def buscar_empleo():
-    return 'Hello World'
-@app.route("/aspirante_home/ver_empleos_guardados")
-def ver_empleos_guardados():
-    return 'Hello World'
-@app.route("/empleos/ver_empleo")
-def ver_empleo():
-    return 'Hello World'
-@app.route("/empleos/postular")
-def postular():
-    return 'Hello World'
-@app.route("/empleos/dejar_recomendar")
-def dejar_recomendar():
-    return 'Hello World'
-@app.route("/empleos/guardar_empleo")
-def guardar_empleo():
-    return 'Hello World'
-@app.route("/perfil_empresa/calificar_empresa")
-def calificar_empresa():
-    return 'Hello World'
-@app.route("/configuracion/cambiar_password")
-def cambiar_password():
-    return 'Hello World'
-@app.route("/configuracion/cambiar_email")
-def cambiar_email():
-    return 'Hello World'
-@app.route("/perfil/editar")
-def editar():
-    return 'Hello World'
-@app.route("/perfil/cambiar_foto")
-def cambiar_foto():
-    return 'Hello World'
-@app.route("/empresa_home/publicar_vacante")
-def publicar_vacante():
-    return 'Hello World'
+
 if __name__=='__main__':
     app.run(port=3000, debug=True)
