@@ -22,6 +22,10 @@ def Index():
 def login():
     return render_template('login.html')
 
+@app.route("/registroAspirantes.html")
+def registroAspirantes():
+    return render_template('registroAspirantes.html')
+
 @app.route("/index.html")
 def index():
     return render_template('index.html')
