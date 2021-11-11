@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@1,500&family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Material+Icons+Round"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Home</title>
+  </head>
+  <body>
+    <section id="main-wrapper">
+      <nav id="main-navbar">
+        <div id="logo">
+          <div id="logo-body">
+            <a href="index.html">
+              <span id="logo-txt">PJ</span>
+            </a>
+          </div>
+        </div>
+        <section id="search-bar">
+          <form id="form-search" action="#">
+            <button id="search-btn">
+              <span class="material-icons-round"> search </span>
+            </button>
+            <input name="busqueda" type="search" placeholder="Buscar empleo" />
+          </form>
+        </section>
+        <section id="nav-btns">
+          <a href="#" class="nav-btn">
+            <span class="material-icons-round"> home </span>
+            Inicio
+          </a>
+          <a href="#" class="nav-btn">
+            <span class="material-icons-round"> person </span>
+            Perfil
+          </a>
+          <a href="#" class="nav-btn">
+            <span class="material-icons-round"> notifications </span>
+            Alertas
+          </a>
+          <a href="#" class="nav-btn">
+            <span class="material-icons-round"> dark_mode </span>
+            Tema
+          </a>
+          <a href="login.html" class="nav-btn">
+            <span class="material-icons-round"> logout </span>
+            Salir
+          </a>
+        </section>
+      </nav>
+      <aside id="sidebar">
+        <section id="sidebar-btns">
+          <div class="sidebar-btn">
+            <a href="#">
+              <span>Recomendaciones</span>
+              <span class="material-icons-round"> recommend </span>
+            </a>
+          </div>
+          <div class="sidebar-btn">
+            <a href="#">
+              <span>Guardados</span>
+              <span class="material-icons-round"> bookmark </span>
+            </a>
+          </div>
+          <div class="sidebar-btn">
+            <a href="#">
+              <span>Postulados</span>
+              <span class="material-icons-round"> task </span>
+            </a>
+          </div>
+          <div class="sidebar-btn">
+            <a href="#">
+              <span>Configuración</span>
+              <span class="material-icons-round"> settings </span>
+            </a>
+          </div>
+        </section>
+        <section id="profile-resume">
+          <div class="profile-pic-container">
+            <img
+              src="https://randomuser.me/api/portraits/women/17.jpg"
+              alt="Foto de perfil"
+              class="profile-pic"
+            />
+          </div>
+          <div class="profile-info">
+            <span class="profile-name">Angelina Lee</span>
+            <span class="profile-role">Software Engineer</span>
+            <span class="profile-location">Palo Alto, California</span>
+            <a href="login.html">¿no eres tu?</a>
+          </div>
+        </section>
+      </aside>
+      <section id="filter-bar">
+        <div class="filter-option">
+          <span>Fecha de publicacion</span>
+          <span class="material-icons-round"> arrow_drop_down </span>
+        </div>
+        <div class="filter-option">
+          <span>Ubicacion del empleo</span>
+          <span class="material-icons-round"> arrow_drop_down </span>
+        </div>
+        <div class="filter-option">
+          <span>Rango salarial</span>
+          <span class="material-icons-round"> arrow_drop_down </span>
+        </div>
+        <div class="filter-option">
+          <span>Nivel de experiencia</span>
+          <span class="material-icons-round"> arrow_drop_down </span>
+        </div>
+      </section>
+    </section>
+  </body>
+</html>
