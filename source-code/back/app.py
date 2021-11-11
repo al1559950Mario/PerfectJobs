@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-from flask import Flask, render_template, request
-=======
 from MySQLdb import cursors
 from flask import Flask, render_template, request,redirect, session, flash
->>>>>>> 91d220efef07db82b0a7f40c140d8c723a4fd0b4
 from flask_mysqldb import MySQL
 
 #Se crea una aplicacion flask
@@ -26,15 +22,7 @@ def Index():
 @app.route("/login.html")
 def login():
     return render_template('login.html')
-<<<<<<< HEAD
-@app.route("/loginbtn", methods=['POST'])
-def loginbtn():
-    if request.method == "POST":
-        correo=request.form["correo"]
-        psw=request.form["contraseña"]
-        print(correo,"\n",psw)
-    return "recibido"
-=======
+
 
 @app.route("/index.html")
 def index():
@@ -91,7 +79,6 @@ def logout():
     session.pop("usuario", None)
     return redirect("/login")
 
->>>>>>> 91d220efef07db82b0a7f40c140d8c723a4fd0b4
 @app.route("/prueba_db")
 def prueba_db():
     cur=mysql.connection.cursor()
