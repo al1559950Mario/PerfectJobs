@@ -1,4 +1,3 @@
-from MySQLdb import cursors
 from flask import Flask, render_template, request,redirect, session, flash
 from flask_mysqldb import MySQL
 
@@ -22,7 +21,6 @@ def Index():
 @app.route("/login.html")
 def login():
     return render_template('login.html')
-
 
 @app.route("/index.html")
 def index():
