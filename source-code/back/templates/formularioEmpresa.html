@@ -18,7 +18,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <title>Empresa | Sign Up</title>
+    <title>Empresa | Detalles de la cuenta</title>
   </head>
   <body style="background-image: linear-gradient(to bottom left, #8ecae6, #4895ef, #1666c5); background-repeat: no-repeat;">
     <section class="vh-100">
@@ -27,44 +27,44 @@
       <div class="col-12 col-lg-9 col-xl-7">
         <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
           <div class="card-body p-4 p-md-5">
-            <img src="static/images/logo.png" class="img-fluid" width="50" style="margin-bottom: 20px;">
-            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Crea una cuenta</h3>
+            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Termina de configurar tu cuenta</h3>
             <form>
-              <!-- Nombre -->
+              <!-- Dirección -->
               <div class="row">
-                <div class="col-md-6 mb-2">
+                <div class="col-md-6 pb-2">
                   <div class="form-outline">
-                    <input type="text" name="nombre" class="form-control form-control-lg" placeholder="Nombre" />
+                    <input type="text" name="direccion" class="form-control form-control-lg" placeholder="Dirección" />
+                  </div>
+                </div>
+                <!-- Razón Social -->
+                <div class="col-md-6 pb-2">
+                  <div class="form-outline">
+                    <input type="text" name="razonSocial" class="form-control form-control-lg" placeholder="Razón Social" />
                   </div>
                 </div>
               </div>
               <hr>
-              <!-- Correo electrónico -->
+              <!-- Información de Contacto -->
               <div class="row">
-                <div class="col-md-6 mb-2">
+                <div class="col-md">
                   <div class="form-outline">
-                    <input type="email" name="correo" class="form-control form-control-lg" placeholder="Correo electronico" />
+                    <input type="text" name="informacionContacto" class="form-control form-control-lg" placeholder="Información de Contacto" style="height: 125px;" />
                   </div>
                 </div>
               </div>
               <hr>
-              <!-- Contraseña -->
+              <!-- Foto Perfil -->
               <div class="row">
-                <div class="col-md-6 mb-4 pb-2">
+                <div class="col-md-8 mb-4">
                   <div class="form-outline">
-                    <input type="password" name="contraseña" class="form-control form-control-lg" placeholder="Contraseña" />
-                  </div>
-                </div>
-                <!-- Confirmar contraseña -->
-                <div class="col-md-6 mb-4 pb-2">
-                  <div class="form-outline">
-                    <input type="password" name="confirmarContraseña" class="form-control form-control-lg" placeholder="Confirmar contraseña" />
+                    <label for="fotoPerfil">Foto de Perfil</label>
+                    <input type="file" name="fotoPerfil" class="form-control form-control-lg" accept="image/png, image/jpeg"/>
                   </div>
                 </div>
               </div>
               <!-- Botón -->
               <div class="mt-4 pt-2">
-                <input class="btn btn-primary btn-lg" type="submit" value="Continuar" />
+                <input class="btn btn-primary btn-lg" type="submit" value="Crear cuenta" />
               </div>
             </form>
           </div>
