@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request,redirect, session, flash
+from flask.helpers import url_for
 from flask_mysqldb import MySQL
 
 #Se crea una aplicacion flask
@@ -59,9 +60,92 @@ def registroEmpresa():
 def registroUsuario():
     return render_template('registroUsuarios.html')
 
+@app.route("/formularioEmpresa.html")
+def formularioEmpresa():
+    return render_template('formularioEmpresa.html')
+
+@app.route("/formularioAspirantes.html")
+def formularioAspirantes():
+    return render_template('formularioAspirantes.html')
+
 @app.route("/homepage")
+<<<<<<< HEAD
 def index():
     return render_template('homepage.html')
+=======
+@app.route("/homepage/<int:id>")
+def index(id = 1):
+    #data usu
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT Nombre, Apellidos FROM aspirantes WHERE id ={0}".format(session["usuario"]))
+    data_usu = cur.fetchall()    
+    #data empleos
+    sql = "SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil  FROM empleos job, empresa c WHERE job.idEmpresa = c.ID LIMIT {0}, 10".format( str(10*(id-1)))
+    print(sql)
+    cur.execute(sql)
+    data = cur.fetchall()
+
+    return render_template('homepage.html', info_usu = data_usu[0], empleos = data )
+>>>>>>> c91459786e9ce4342345df2a8117dfdd80696d44
+
+@app.route("/homepage/guardados/")
+@app.route("/homepage/guardados/<int:id>")
+def guardados(id = 1):
+    #data usu
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT Nombre, Apellidos FROM aspirantes WHERE id ={0}".format(session["usuario"]))
+    data_usu = cur.fetchall()    
+    #data empleos guardados
+    sql = """
+    SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil  
+    FROM empleos job, empresa c, aspirantes_empleos ae, aspirantes a
+    WHERE job.idEmpresa = c.ID
+    AND job.ID = ae.idEmpleos
+    AND a.ID = ae.idAspirante
+    AND ae.Estado = 1
+    LIMIT {0}, 10""".format( str(10*(id-1)))
+    #print(sql)
+    cur.execute(sql)
+    data = cur.fetchall()
+    if len(data) == 0:
+        flash("No hay resultados")
+    return render_template('homepage.html', info_usu = data_usu[0], empleos = data )
+
+@app.route("/homepage/postulados/")
+@app.route("/homepage/postulados/<int:id>")
+def postulados(id = 1):
+    #data usu
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT Nombre, Apellidos FROM aspirantes WHERE id ={0}".format(session["usuario"]))
+    data_usu = cur.fetchall()    
+    #data empleos guardados
+    sql = """
+    SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil  
+    FROM empleos job, empresa c, aspirantes_empleos ae, aspirantes a
+    WHERE job.idEmpresa = c.ID
+    AND job.ID = ae.idEmpleos
+    AND a.ID = ae.idAspirante
+    AND ae.Estado = 2
+    LIMIT {0}, 10""".format( str(10*(id-1)))
+    #print(sql)
+    cur.execute(sql)
+    data = cur.fetchall()
+    if len(data) == 0:
+        flash("No hay resultados")
+    return render_template('homepage.html', info_usu = data_usu[0], empleos = data )
+
+@app.route("/homepage/search/", methods=["POST"])
+#@app.route("/homepage/search/<int:id>", methods=["POST"])
+def busqueda(id = 1, path = None):
+    #data usu
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT Nombre, Apellidos FROM aspirantes WHERE id ={0}".format(session["usuario"]))
+    data_usu = cur.fetchall()   
+    #
+
+    return render_template('homepage.html', info_usu = data_usu[0])
+
+
 
 @app.route("/hacer_login", methods=["POST"])
 def hacer_login():
@@ -77,7 +161,7 @@ def hacer_login():
     try:
         cursor.execute(sql_aspirantes)
         results = cursor.fetchall()
-        print(results)
+        #print(results)
         if len(results)==1:
             session["usuario"] = correo
             #home de aspirante
@@ -85,7 +169,7 @@ def hacer_login():
         else:
             cursor.execute(sql_empresas)
             results = cursor.fetchall()
-            print(results)
+            #print(results)
             if len(results)==1:
                 session["usuario"] = correo
                 #home de empresa
@@ -114,8 +198,8 @@ def antes_de_cada_peticion():
 @app.route("/logout")
 def logout():
     session.pop("usuario", None)
-    return redirect("/login")
-
+    print("pan")
+    return redirect("/login.html")
 
 
 @app.route("/prueba_db")

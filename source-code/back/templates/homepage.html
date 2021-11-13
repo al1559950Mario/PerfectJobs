@@ -59,7 +59,7 @@
             <span class="material-icons-round"> dark_mode </span>
             Tema
           </button>
-          <a href="login.html" class="nav-btn">
+          <a href="{{ url_for('logout') }}" class="nav-btn">
             <span class="material-icons-round"> logout </span>
             Salir
           </a>
@@ -74,13 +74,13 @@
             </a>
           </div>
           <div class="sidebar-btn">
-            <a href="#">
+            <a href="{{ url_for('guardados') }}">
               <span>Guardados</span>
               <span class="material-icons-round"> bookmark </span>
             </a>
           </div>
           <div class="sidebar-btn">
-            <a href="#">
+            <a href="{{ url_for('postulados') }}">
               <span>Postulados</span>
               <span class="material-icons-round"> task </span>
             </a>
@@ -101,7 +101,7 @@
             />
           </div>
           <div class="profile-info">
-            <span class="profile-name">{{info_usu.1}} {{info_usu.2}}</span>
+            <span class="profile-name">{{info_usu.0}} {{info_usu.1}}</span>
             <span class="profile-role">Software Engineer</span>
             <span class="profile-location">Palo Alto, California</span>
             <a href="login.html">¿no eres tu?</a>
@@ -142,8 +142,15 @@
             <span class="job-location"> {{job.1}} </span>
           </div>
         </div>
+
         {% endfor %}
-        
+          {% with messages = get_flashed_messages() %}
+            {%  if messages %}
+              {% for m in messages%}
+              <p>{{m}}</p>
+              {% endfor %}
+          {% endif %}
+        {% endwith %}
 
       </section>
       <section id="job-display">
@@ -190,6 +197,6 @@
         </div>
       </section>
     </section>
-    <script src="js/darkmode.js"></script>
+    <script src="{{ url_for('static', filename='js/darkmode.js') }}"></script>
   </body>
 </html>
