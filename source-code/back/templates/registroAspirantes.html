@@ -29,7 +29,7 @@
           <div class="card-body p-4 p-md-5">
             <img src="static/images/logo.png" class="img-fluid" width="50" style="margin-bottom: 20px;">
             <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Crea una cuenta</h3>
-            <form>
+            <form action="{{url_for('registroasp1')}}" method="post">
               <!-- Nombre -->
               <div class="row">
                 <div class="col-md-6 mb-1 pb-2">
@@ -59,7 +59,7 @@
                     <input
                       class="form-check-input"
                       type="radio"
-                      name="mujer"
+                      name="gender"
                       id="mujer"
                       value="mujer"
                       checked
@@ -70,7 +70,7 @@
                     <input
                       class="form-check-input"
                       type="radio"
-                      name="hombre"
+                      name="gender"
                       id="hombre"
                       value="hombre"
                     />
@@ -80,7 +80,7 @@
                     <input
                       class="form-check-input"
                       type="radio"
-                      name="otro"
+                      name="gender"
                       id="otro"
                       value="otro"
                     />

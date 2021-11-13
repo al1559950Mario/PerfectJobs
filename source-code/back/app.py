@@ -26,6 +26,33 @@ def login():
 @app.route("/registroAspirantes.html")
 def registroAspirantes():
     return render_template('registroAspirantes.html')
+@app.route("/asp1", methods=["POST"])
+def registroasp1():
+    nombre = request.form["nombre"]
+    apellidos = request.form["apellidos"]
+    fechaNacimiento = request.form["fechaNacimiento"]
+    gender = request.form["gender"]
+    correo = request.form["correo"]
+    telefono = request.form["telefono"]
+    contraseña = request.form["contraseña"]
+    confirmarContraseña = request.form["confirmarContraseña"]
+    if contraseña==confirmarContraseña and contraseña:
+        cursor=mysql.connection.cursor()
+        cursor.execute("""INSERT into aspirantes (ID, Nombre, Apellidos, fechaNacimiento, Genero, Telefono, correoElectronico, Contraseña)
+        values (%s,%s,%s,%s,%s,%s,%s,%s);
+        """,
+        (None, nombre, apellidos, fechaNacimiento, gender, correo, )
+        )
+        print(sql_registroA)
+        cursor.execute(sql_registroA)
+        results=cursor.fetchall()
+        print(results)
+        #aqui debe ir a la siguiente pantalla del registro
+        return redirect("/homepage")
+    else:
+        #<<<<<<<Hay que retornar una alerta de que las contraseñas no coinciden
+        flash("Error en la contraseña")
+        return redirect("/registroAspirantes.html")
 
 @app.route("/registroEmpresa.html")
 def registroEmpresa():
@@ -48,7 +75,7 @@ def hacer_login():
     cursor=mysql.connection.cursor()
 
     sql_empresas = "SELECT * FROM empresa where correoElectronico= '"+correo+"' and Contraseña='"+contra+"'"
-    sql_aspirantes= "SELECT * FROM empresa where correoElectronico= '"+correo+"' and Contraseña='"+contra+"'"
+    sql_aspirantes= "SELECT * FROM aspirantes where correoElectronico= '"+correo+"' and Contraseña='"+contra+"'"
 
     try:
         cursor.execute(sql_aspirantes)
@@ -68,9 +95,11 @@ def hacer_login():
                 return redirect("/homepage")
             else:
                 # Si NO coincide, lo regresamos
+                print("Esta llegando al else")
                 flash("Correo o contraseña incorrectos")
                 return redirect("/login.html")
     except:
+        print("Esta llegando al except")
         return redirect("/login.html")
 
 
