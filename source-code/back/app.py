@@ -41,12 +41,9 @@ def registroasp1():
         cursor.execute("""INSERT into aspirantes (ID, Nombre, Apellidos, fechaNacimiento, Genero, Telefono, correoElectronico, Contraseña)
         values (%s,%s,%s,%s,%s,%s,%s,%s);
         """,
-        (None, nombre, apellidos, fechaNacimiento, gender, correo, )
+        (None, nombre, apellidos, fechaNacimiento, gender,  telefono, correo, contraseña)
         )
-        print(sql_registroA)
-        cursor.execute(sql_registroA)
-        results=cursor.fetchall()
-        print(results)
+        cursor.commit()
         #aqui debe ir a la siguiente pantalla del registro
         return redirect("/homepage")
     else:
