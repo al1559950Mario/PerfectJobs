@@ -1,3 +1,5 @@
+/*** GENERAL ***/
+
 :root {
   --light-body-color: #f1f1f1;
   --light-box-color: #ffffff;
@@ -8,6 +10,21 @@
   --light-text-gray: #3a3a3a;
   --light-text-grey: #9593a0;
   --light-link-text: #0645ad;
+  --ligth-green-tag: #5cb85c;
+  --light-option-hover: #1358ac;
+  --options-color: #fff;
+}
+
+.darkmode {
+  --light-body-color: #171717;
+  --light-box-color: #444444;
+  --light-text-gray: #ededed;
+  --light-text-grey: #ededed;
+  --light-main-color: #367fd8;
+  --ligth-green-tag: #78f278;
+  --light-link-text: #3f97ff;
+  --light-option-hover: #336cb1;
+  color: #ededed;
 }
 
 * {
@@ -21,25 +38,32 @@ body {
 }
 
 #main-wrapper {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 250px auto auto;
+  grid-template-rows: auto 90px auto;
+  /* display: flex; */
+  /* flex-wrap: wrap; */
 }
 
+/*** NAVBAR ***/
+
 #main-navbar {
+  grid-column: 1/4;
+  grid-row: 1/2;
   /* height: 100px; */
   /* flex-basis: 1; */
   display: flex;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  justify-content: flex-start;
+  /* top: 0; */
+  /* left: 0; */
+  /* width: 100vw; */
+  /* justify-content: flex-start; */
   align-items: center;
   padding: 1rem;
   background-color: var(--light-box-color);
 }
 
 #logo {
-  width: 250px;
+  width: 234px;
 }
 
 #logo-body {
@@ -103,6 +127,22 @@ input[name="busqueda"]:focus {
   outline: none;
 }
 
+/*** SIDEBAR ***/
+
+#sidebar {
+  display: flex;
+  max-width: 250px;
+  grid-column: 1/2;
+  grid-row: 2/4;
+  /* justify-content: center; */
+  align-items: center;
+  flex-direction: column;
+  /* height: 100vh; */
+  background-color: var(--light-box-color);
+  /* position: fixed; */
+  /* bottom: 0; */
+}
+
 #nav-btns {
   display: flex;
   width: 45%;
@@ -122,22 +162,13 @@ input[name="busqueda"]:focus {
   color: var(--light-text-gray);
   text-align: center;
   /* margin-left: 30px; */
+  border: none;
+  background-color: inherit;
 }
 
 .nav-btn:hover {
   color: var(--light-main-color);
-}
-
-#sidebar {
-  display: flex;
-  width: 270px;
-  /* justify-content: center; */
-  align-items: center;
-  flex-direction: column;
-  /* height: 100vh; */
-  background-color: var(--light-box-color);
-  /* position: fixed; */
-  /* bottom: 0; */
+  cursor: pointer;
 }
 
 #sidebar-btns {
@@ -217,10 +248,14 @@ input[name="busqueda"]:focus {
   color: var(--light-link-text);
 }
 
+/*** BARRA DE FILTROS ***/
+
 #filter-bar {
+  grid-column: 2/4;
+  grid-row: 2/3;
   display: flex;
   align-items: center;
-  flex-grow: 1;
+  /* flex-grow: 1; */
   padding: 5px;
   /* padding-left: 30px; */
   /* width: 100%; */
@@ -255,46 +290,153 @@ input[name="busqueda"]:focus {
   border-right: none;
 }
 
-/****************** Login *******************/
+/*** LISTA DE TRABAJOS ***/
 
-.col-container {
-  display: table; /* Make the container element behave like a table */
-  width: 100%; /* Set full-width to expand the whole page */
+#job-list {
+  /* flex-basis: 1; */
+  display: flex;
+  flex-direction: column;
+  grid-column: 2/3;
+  grid-row: 3/4;
+  margin-left: 20px;
+  margin-right: 20px;
+  min-width: 500px;
+  max-height: 900px;
+  overflow: scroll;
+  /* background-color: red; */
 }
 
-.col {
-  display: table-cell; /* Make elements inside the container behave like table cells */
+.job-card {
+  display: flex;
+  position: relative;
+  /* justify-content: space-between; */
+  background-color: var(--light-box-color);
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0px 4px 4px var(--light-shadow-box);
 }
 
-.button {
-  background-color: none; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
+.img-job-container {
+  width: 110px;
+  /* background-color: red; */
+}
+
+.job-card:hover {
+  cursor: pointer;
+  border: 3px solid var(--light-main-color);
+}
+
+.img-job-container > img {
+  max-width: 100%;
+  height: auto;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.job-info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem;
+}
+
+.job-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.job-location {
+  font-style: italic;
+}
+
+.new-job-tag {
+  position: absolute;
+  right: 0;
+  margin-right: 1rem;
+  background-color: var(--ligth-green-tag);
+  width: 75px;
+  height: 30px;
   text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  font-size: 30px;
+  line-height: 30px;
+  border-radius: 10px;
+  color: var(--light-box-color);
+  font-weight: 700;
+}
+/*** DESCRIPCION COMPLETA DEL TRABAJO ***/
+
+#job-display {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  grid-column: 3/4;
+  grid-row: 3/4;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  background-color: var(--light-box-color);
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0px 4px 4px var(--light-shadow-box);
 }
 
-.button1 {
-  background-color: var(--light-body-color);
-  color: black;
-  border: 2px solid #1666c5;
-  padding: 15px 25px;
-  font-family: "Roboto", sans-serif;
-  font-weight: 400;
-  font-size: 30px;
+.job-resume {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding-bottom: 20px;
+  border-bottom: 0.5px solid var(--light-text-grey);
 }
 
-.login {
-  font-family: "Roboto", sans-serif;
-  font-weight: 400;
+.job-data {
+  display: flex;
+  flex-direction: column;
 }
 
-.title {
-  font-family: "Roboto", sans-serif;
-  font-weight: 400;
-  color: #1666c5;
+.job-date {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.job-text {
+  text-align: justify;
+}
+
+.job-text-em {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.job-options {
+  display: flex;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border-radius: 0px 0px 1rem 1rem;
+  /* justify-content: center; */
+  background-color: var(--light-main-color);
+  color: var(--light-box-color);
+  font-weight: 700;
+  /* padding: 1rem; */
+}
+
+.job-option {
+  text-align: center;
+  flex-basis: 100%;
+  padding: 1rem;
+  color: var(--options-color);
+}
+
+.job-option:hover {
+  cursor: pointer;
+  background-color: var(--light-option-hover);
+  border-radius: 0px 0px 1rem 1rem;
+}
+
+.job-option:nth-last-child(2) {
+  border-right: 1px solid white;
+  border-left: 1px solid white;
 }

@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/normalize.css') }}"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -15,7 +18,10 @@
       href="https://fonts.googleapis.com/css?family=Material+Icons+Round"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
     <title>Home</title>
   </head>
   <body>
@@ -23,7 +29,7 @@
       <nav id="main-navbar">
         <div id="logo">
           <div id="logo-body">
-            <a href="homepage.html">
+            <a href="index.html">
               <span id="logo-txt">PJ</span>
             </a>
           </div>
@@ -49,10 +55,10 @@
             <span class="material-icons-round"> notifications </span>
             Alertas
           </a>
-          <a href="#" class="nav-btn">
+          <button class="nav-btn" id="dark-mode-toggle">
             <span class="material-icons-round"> dark_mode </span>
             Tema
-          </a>
+          </button>
           <a href="login.html" class="nav-btn">
             <span class="material-icons-round"> logout </span>
             Salir
@@ -63,7 +69,7 @@
         <section id="sidebar-btns">
           <div class="sidebar-btn">
             <a href="#">
-              <span>Recomendaciones</span>
+              <span>Recomendados</span>
               <span class="material-icons-round"> recommend </span>
             </a>
           </div>
@@ -120,6 +126,258 @@
           <span class="material-icons-round"> arrow_drop_down </span>
         </div>
       </section>
+      <section id="job-list">
+        <div class="job-card">
+          <div class="img-job-container">
+            <img
+              src="https://d31i9b8skgubvn.cloudfront.net/folder/logos/348_logo_UPomeRiXO2iK4PVc.png"
+              alt="Logo de la empresa"
+            />
+          </div>
+          <div class="job-info">
+            <span class="job-title">Desarrollador Java SSr.</span>
+            <span class="job-company">Indra Sistemas, S.A.</span>
+            <span class="job-location">Guadalajara, Jalisco</span>
+          </div>
+          <div class="new-job-tag">
+            <span>Nuevo</span>
+          </div>
+        </div>
+        <div class="job-card">
+          <div class="img-job-container">
+            <img
+              src="https://d31i9b8skgubvn.cloudfront.net/folder/logos/348_logo_UPomeRiXO2iK4PVc.png"
+              alt="Logo de la empresa"
+            />
+          </div>
+          <div class="job-info">
+            <span class="job-title">Desarrollador Java SSr.</span>
+            <span class="job-company">Indra Sistemas, S.A.</span>
+            <span class="job-location">Guadalajara, Jalisco</span>
+          </div>
+          <div class="new-job-tag">
+            <span>Nuevo</span>
+          </div>
+        </div>
+        <div class="job-card">
+          <div class="img-job-container">
+            <img
+              src="https://d31i9b8skgubvn.cloudfront.net/folder/logos/348_logo_UPomeRiXO2iK4PVc.png"
+              alt="Logo de la empresa"
+            />
+          </div>
+          <div class="job-info">
+            <span class="job-title">Desarrollador Java SSr.</span>
+            <span class="job-company">Indra Sistemas, S.A.</span>
+            <span class="job-location">Guadalajara, Jalisco</span>
+          </div>
+          <div class="new-job-tag">
+            <span>Nuevo</span>
+          </div>
+        </div>
+        <div class="job-card">
+          <div class="img-job-container">
+            <img
+              src="https://d31i9b8skgubvn.cloudfront.net/folder/logos/348_logo_UPomeRiXO2iK4PVc.png"
+              alt="Logo de la empresa"
+            />
+          </div>
+          <div class="job-info">
+            <span class="job-title">Desarrollador Java SSr.</span>
+            <span class="job-company">Indra Sistemas, S.A.</span>
+            <span class="job-location">Guadalajara, Jalisco</span>
+          </div>
+          <div class="new-job-tag">
+            <span>Nuevo</span>
+          </div>
+        </div>
+        <div class="job-card">
+          <div class="img-job-container">
+            <img
+              src="https://d31i9b8skgubvn.cloudfront.net/folder/logos/348_logo_UPomeRiXO2iK4PVc.png"
+              alt="Logo de la empresa"
+            />
+          </div>
+          <div class="job-info">
+            <span class="job-title">Desarrollador Java SSr.</span>
+            <span class="job-company">Indra Sistemas, S.A.</span>
+            <span class="job-location">Guadalajara, Jalisco</span>
+          </div>
+          <div class="new-job-tag">
+            <span>Nuevo</span>
+          </div>
+        </div>
+        <div class="job-card">
+          <div class="img-job-container">
+            <img
+              src="https://d31i9b8skgubvn.cloudfront.net/folder/logos/348_logo_UPomeRiXO2iK4PVc.png"
+              alt="Logo de la empresa"
+            />
+          </div>
+          <div class="job-info">
+            <span class="job-title">Desarrollador Java SSr.</span>
+            <span class="job-company">Indra Sistemas, S.A.</span>
+            <span class="job-location">Guadalajara, Jalisco</span>
+          </div>
+          <div class="new-job-tag">
+            <span>Nuevo</span>
+          </div>
+        </div>
+        <div class="job-card">
+          <div class="img-job-container">
+            <img
+              src="https://d31i9b8skgubvn.cloudfront.net/folder/logos/348_logo_UPomeRiXO2iK4PVc.png"
+              alt="Logo de la empresa"
+            />
+          </div>
+          <div class="job-info">
+            <span class="job-title">Desarrollador full-stack</span>
+            <span class="job-company">Indra Sistemas, S.A.</span>
+            <span class="job-location">Guadalajara, Jalisco</span>
+          </div>
+          <div class="new-job-tag">
+            <span>Nuevo</span>
+          </div>
+        </div>
+        <div class="job-card">
+          <div class="img-job-container">
+            <img
+              src="https://d31i9b8skgubvn.cloudfront.net/folder/logos/348_logo_UPomeRiXO2iK4PVc.png"
+              alt="Logo de la empresa"
+            />
+          </div>
+          <div class="job-info">
+            <span class="job-title">Desarrollador full-stack</span>
+            <span class="job-company">Indra Sistemas, S.A.</span>
+            <span class="job-location">Guadalajara, Jalisco</span>
+          </div>
+          <div class="new-job-tag">
+            <span>Nuevo</span>
+          </div>
+        </div>
+        <div class="job-card">
+          <div class="img-job-container">
+            <img
+              src="https://d31i9b8skgubvn.cloudfront.net/folder/logos/348_logo_UPomeRiXO2iK4PVc.png"
+              alt="Logo de la empresa"
+            />
+          </div>
+          <div class="job-info">
+            <span class="job-title">Desarrollador full-stack</span>
+            <span class="job-company">Indra Sistemas, S.A.</span>
+            <span class="job-location">Guadalajara, Jalisco</span>
+          </div>
+        </div>
+        <div class="job-card">
+          <div class="img-job-container">
+            <img
+              src="https://d31i9b8skgubvn.cloudfront.net/folder/logos/348_logo_UPomeRiXO2iK4PVc.png"
+              alt="Logo de la empresa"
+            />
+          </div>
+          <div class="job-info">
+            <span class="job-title">Desarrollador full-stack</span>
+            <span class="job-company">Indra Sistemas, S.A.</span>
+            <span class="job-location">Guadalajara, Jalisco</span>
+          </div>
+        </div>
+        <div class="job-card">
+          <div class="img-job-container">
+            <img
+              src="https://d31i9b8skgubvn.cloudfront.net/folder/logos/348_logo_UPomeRiXO2iK4PVc.png"
+              alt="Logo de la empresa"
+            />
+          </div>
+          <div class="job-info">
+            <span class="job-title">Desarrollador full-stack</span>
+            <span class="job-company">Indra Sistemas, S.A.</span>
+            <span class="job-location">Guadalajara, Jalisco</span>
+          </div>
+        </div>
+        <div class="job-card">
+          <div class="img-job-container">
+            <img
+              src="https://d31i9b8skgubvn.cloudfront.net/folder/logos/348_logo_UPomeRiXO2iK4PVc.png"
+              alt="Logo de la empresa"
+            />
+          </div>
+          <div class="job-info">
+            <span class="job-title">Desarrollador full-stack</span>
+            <span class="job-company">Indra Sistemas, S.A.</span>
+            <span class="job-location">Guadalajara, Jalisco</span>
+          </div>
+        </div>
+        <div class="job-card">
+          <div class="img-job-container">
+            <img
+              src="https://d31i9b8skgubvn.cloudfront.net/folder/logos/348_logo_UPomeRiXO2iK4PVc.png"
+              alt="Logo de la empresa"
+            />
+          </div>
+          <div class="job-info">
+            <span class="job-title">Desarrollador full-stack</span>
+            <span class="job-company">Indra Sistemas, S.A.</span>
+            <span class="job-location">Guadalajara, Jalisco</span>
+          </div>
+        </div>
+        <div class="job-card">
+          <div class="img-job-container">
+            <img
+              src="https://d31i9b8skgubvn.cloudfront.net/folder/logos/348_logo_UPomeRiXO2iK4PVc.png"
+              alt="Logo de la empresa"
+            />
+          </div>
+          <div class="job-info">
+            <span class="job-title">Desarrollador full-stack</span>
+            <span class="job-company">Indra Sistemas, S.A.</span>
+            <span class="job-location">Guadalajara, Jalisco</span>
+          </div>
+        </div>
+      </section>
+      <section id="job-display">
+        <div class="job-resume">
+          <div class="job-data">
+            <span class="job-title">Desarrollador Java SSr.</span>
+            <span class="job-company">Indra Sistemas, S.A.</span>
+            <span class="job-location">Guadalajara, Jalisco</span>
+            <span class="job-date">2021/10/11</span>
+          </div>
+          <div class="img-job-container">
+            <img
+              src="https://d31i9b8skgubvn.cloudfront.net/folder/logos/348_logo_UPomeRiXO2iK4PVc.png"
+              alt="Logo de la empresa"
+            />
+          </div>
+        </div>
+        <div class="job-text">
+          <span class="job-text-em">Descripción del puesto</span>
+          Un lugar para ti Trae tu talento a una compañía global de consultoría
+          y tecnología, con presencia en los 5 continentes y más de 40.000
+          profesionales. Trabajarás en un entorno de soluciones y servicios
+          innovadores para nuestros clientes en los principales sectores de
+          actividad, aportándoles valor añadido. Participarás de la
+          transformación de los negocios trabajando con profesionales de
+          referencia. Esta es tu oportunidad Buscamos un profesional con
+          experiencia y visión de futuro para contribuir en la implantación de
+          soluciones y servicios eficientes y eficaces para satisfacer las
+          demandas de nuestros clientes.
+          <span class="job-text-em">Requisitos</span>
+          ·Ingeniero en sistemas computacionales o profesionista con
+          licenciatura a fin a informática / matemáticas / computación. · 2 años
+          de experiencia en Desarrollo de aplicaciones Java.
+          <span class="job-text-em">Beneficios</span>
+          Salario competitivo, esquema 100% nómina Prestaciones superiores a las
+          de la ley. Excelente ambiente laboral Plan de Vida y Carrera
+          Desarrollo profesional. Capacitación Constante Una carrera profesional
+          y personal de éxito
+        </div>
+        <div class="job-options">
+          <div class="job-option"><span>No me interesa</span></div>
+          <div class="job-option">Guardar</div>
+          <div class="job-option">Postularse</div>
+        </div>
+      </section>
     </section>
+    <script src="js/darkmode.js"></script>
   </body>
 </html>
