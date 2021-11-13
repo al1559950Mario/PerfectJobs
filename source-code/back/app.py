@@ -43,7 +43,7 @@ def registroasp1():
         """,
         (None, nombre, apellidos, fechaNacimiento, gender,  telefono, correo, contraseña)
         )
-        cursor.commit()
+        mysql.commit()
         #aqui debe ir a la siguiente pantalla del registro
         return redirect("/homepage")
     else:
@@ -60,19 +60,8 @@ def registroUsuario():
     return render_template('registroUsuarios.html')
 
 @app.route("/homepage")
-@app.route("/homepage/<int:id>")
-def index(id = 1):
-    #data usu
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM aspirantes WHERE id ={0}".format(session["usuario"]))
-    data_usu = cur.fetchall()    
-    #data empleos
-    sql = "SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil  FROM empleos job, empresa c WHERE job.idEmpresa = c.ID LIMIT {0}, 10".format( str(10*(id-1)))
-    print(sql)
-    cur.execute(sql)
-    data = cur.fetchall()
-
-    return render_template('homepage.html', info_usu = data_usu[0], empleos = data )
+def index():
+    return render_template('homepage.html')
 
 @app.route("/hacer_login", methods=["POST"])
 def hacer_login():
@@ -90,7 +79,7 @@ def hacer_login():
         results = cursor.fetchall()
         print(results)
         if len(results)==1:
-            session["usuario"] = results[0][0]
+            session["usuario"] = correo
             #home de aspirante
             return redirect("/homepage")
         else:
@@ -98,7 +87,7 @@ def hacer_login():
             results = cursor.fetchall()
             print(results)
             if len(results)==1:
-                session["usuario"] = results[0][0]
+                session["usuario"] = correo
                 #home de empresa
                 return redirect("/homepage")
             else:
