@@ -63,6 +63,14 @@ def registroEmpresa():
 def registroUsuario():
     return render_template('registroUsuarios.html')
 
+@app.route("/formularioEmpresa.html")
+def formularioEmpresa():
+    return render_template('formularioEmpresa.html')
+
+@app.route("/formularioAspirantes.html")
+def formularioAspirantes():
+    return render_template('formularioAspirantes.html')
+
 @app.route("/homepage")
 @app.route("/homepage/<int:id>")
 def index(id = 1):
