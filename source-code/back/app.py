@@ -69,16 +69,13 @@ def formularioAspirantes():
     return render_template('formularioAspirantes.html')
 
 @app.route("/homepage")
-<<<<<<< HEAD
-def index():
-    return render_template('homepage.html')
-=======
+
 @app.route("/homepage/<int:id>")
 def index(id = 1):
     #data usu
     cur = mysql.connection.cursor()
     cur.execute("SELECT Nombre, Apellidos FROM aspirantes WHERE id ={0}".format(session["usuario"]))
-    data_usu = cur.fetchall()    
+    data_usu = cur.fetchall()
     #data empleos
     sql = "SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil  FROM empleos job, empresa c WHERE job.idEmpresa = c.ID LIMIT {0}, 10".format( str(10*(id-1)))
     print(sql)
@@ -86,7 +83,6 @@ def index(id = 1):
     data = cur.fetchall()
 
     return render_template('homepage.html', info_usu = data_usu[0], empleos = data )
->>>>>>> c91459786e9ce4342345df2a8117dfdd80696d44
 
 @app.route("/homepage/guardados/")
 @app.route("/homepage/guardados/<int:id>")
@@ -94,10 +90,10 @@ def guardados(id = 1):
     #data usu
     cur = mysql.connection.cursor()
     cur.execute("SELECT Nombre, Apellidos FROM aspirantes WHERE id ={0}".format(session["usuario"]))
-    data_usu = cur.fetchall()    
+    data_usu = cur.fetchall()
     #data empleos guardados
     sql = """
-    SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil  
+    SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil
     FROM empleos job, empresa c, aspirantes_empleos ae, aspirantes a
     WHERE job.idEmpresa = c.ID
     AND job.ID = ae.idEmpleos
@@ -117,10 +113,10 @@ def postulados(id = 1):
     #data usu
     cur = mysql.connection.cursor()
     cur.execute("SELECT Nombre, Apellidos FROM aspirantes WHERE id ={0}".format(session["usuario"]))
-    data_usu = cur.fetchall()    
+    data_usu = cur.fetchall()
     #data empleos guardados
     sql = """
-    SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil  
+    SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil
     FROM empleos job, empresa c, aspirantes_empleos ae, aspirantes a
     WHERE job.idEmpresa = c.ID
     AND job.ID = ae.idEmpleos
@@ -140,7 +136,7 @@ def busqueda(id = 1, path = None):
     #data usu
     cur = mysql.connection.cursor()
     cur.execute("SELECT Nombre, Apellidos FROM aspirantes WHERE id ={0}".format(session["usuario"]))
-    data_usu = cur.fetchall()   
+    data_usu = cur.fetchall()
     #
 
     return render_template('homepage.html', info_usu = data_usu[0])
