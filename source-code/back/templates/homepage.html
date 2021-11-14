@@ -29,21 +29,21 @@
       <nav id="main-navbar">
         <div id="logo">
           <div id="logo-body">
-            <a href="index.html">
+            <a href="{{ url_for('index') }}">
               <span id="logo-txt">PJ</span>
             </a>
           </div>
         </div>
         <section id="search-bar">
-          <form id="form-search" action="#">
+          <form id="form-search" action="{{ url_for('busqueda') }}" method="post, get">
             <button id="search-btn">
               <span class="material-icons-round"> search </span>
             </button>
-            <input name="busqueda" type="search" placeholder="Buscar empleo" />
+            <input name="busqueda" type="text" placeholder="Buscar empleo" value = "{{termino}}"/>
           </form>
         </section>
         <section id="nav-btns">
-          <a href="#" class="nav-btn">
+          <a href="homepage.html" class="nav-btn">
             <span class="material-icons-round"> home </span>
             Inicio
           </a>
@@ -129,6 +129,7 @@
       <section id="job-list">
 
         {% for job in empleos %}
+        <a href="/{{path}}{{job.4}}" id = "link">
         <div class="job-card">
           <div class="img-job-container">
             <img
@@ -142,8 +143,9 @@
             <span class="job-location"> {{job.1}} </span>
           </div>
         </div>
-
+        </a>
         {% endfor %}
+
           {% with messages = get_flashed_messages() %}
             {%  if messages %}
               {% for m in messages%}
@@ -153,12 +155,16 @@
         {% endwith %}
 
       </section>
+
+      
+      {% if empleo_seleccionado %}
       <section id="job-display">
+        
         <div class="job-resume">
           <div class="job-data">
-            <span class="job-title">Desarrollador Java SSr.</span>
-            <span class="job-company">Indra Sistemas, S.A.</span>
-            <span class="job-location">Guadalajara, Jalisco</span>
+            <span class="job-title">{{empleo_seleccionado.0}}</span>
+            <span class="job-company">{{empleo_seleccionado.2}}</span>
+            <span class="job-location">{{empleo_seleccionado.1}}</span>
             <span class="job-date">2021/10/11</span>
           </div>
           <div class="img-job-container">
@@ -168,27 +174,10 @@
             />
           </div>
         </div>
+        
         <div class="job-text">
           <span class="job-text-em">Descripción del puesto</span>
-          Un lugar para ti Trae tu talento a una compañía global de consultoría
-          y tecnología, con presencia en los 5 continentes y más de 40.000
-          profesionales. Trabajarás en un entorno de soluciones y servicios
-          innovadores para nuestros clientes en los principales sectores de
-          actividad, aportándoles valor añadido. Participarás de la
-          transformación de los negocios trabajando con profesionales de
-          referencia. Esta es tu oportunidad Buscamos un profesional con
-          experiencia y visión de futuro para contribuir en la implantación de
-          soluciones y servicios eficientes y eficaces para satisfacer las
-          demandas de nuestros clientes.
-          <span class="job-text-em">Requisitos</span>
-          ·Ingeniero en sistemas computacionales o profesionista con
-          licenciatura a fin a informática / matemáticas / computación. · 2 años
-          de experiencia en Desarrollo de aplicaciones Java.
-          <span class="job-text-em">Beneficios</span>
-          Salario competitivo, esquema 100% nómina Prestaciones superiores a las
-          de la ley. Excelente ambiente laboral Plan de Vida y Carrera
-          Desarrollo profesional. Capacitación Constante Una carrera profesional
-          y personal de éxito
+          {{empleo_seleccionado.4}}
         </div>
         <div class="job-options">
           <div class="job-option"><span>No me interesa</span></div>
@@ -197,6 +186,7 @@
         </div>
       </section>
     </section>
+    {% endif  %}
     <script src="{{ url_for('static', filename='js/darkmode.js') }}"></script>
   </body>
 </html>

@@ -69,78 +69,173 @@ def formularioAspirantes():
     return render_template('formularioAspirantes.html')
 
 @app.route("/homepage")
+<<<<<<< HEAD
 
 @app.route("/homepage/<int:id>")
 def index(id = 1):
+=======
+@app.route("/homepage/<int:page>")
+@app.route("/homepage/<int:page>/<int:id_trabajo>")
+def index(page = 1, id_trabajo = None):
+>>>>>>> 62520681548b22350ccf9e99988cff1ef33366db
     #data usu
     cur = mysql.connection.cursor()
     cur.execute("SELECT Nombre, Apellidos FROM aspirantes WHERE id ={0}".format(session["usuario"]))
     data_usu = cur.fetchall()
     #data empleos
-    sql = "SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil  FROM empleos job, empresa c WHERE job.idEmpresa = c.ID LIMIT {0}, 10".format( str(10*(id-1)))
-    print(sql)
+    sql = "SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil, job.ID  FROM empleos job, empresa c WHERE job.idEmpresa = c.ID LIMIT {0}, 10".format( str(10*(page-1)))
     cur.execute(sql)
     data = cur.fetchall()
+<<<<<<< HEAD
 
     return render_template('homepage.html', info_usu = data_usu[0], empleos = data )
+=======
+    #mensaje si no hay resultados
+    if len(data) == 0:
+        flash("No hay resultados")
+    #path
+    path = "homepage/"+str(page)+"/"
+    #Empleo seleccionado
+    if id_trabajo:
+        sql = "SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil,job.Descripcion  FROM empleos job, empresa c WHERE job.idEmpresa = c.ID AND job.ID = {0}".format(id_trabajo)
+        print(sql)
+        cur.execute(sql)
+        data_trabajo = cur.fetchall()
+        return render_template('homepage.html', info_usu = data_usu[0], empleos = data,path = path, page = page, empleo_seleccionado= data_trabajo[0] )
+    else:
+        return render_template('homepage.html', info_usu = data_usu[0], empleos = data,path = path,page = page)
+>>>>>>> 62520681548b22350ccf9e99988cff1ef33366db
 
 @app.route("/homepage/guardados/")
-@app.route("/homepage/guardados/<int:id>")
-def guardados(id = 1):
+@app.route("/homepage/guardados/<int:page>")
+@app.route("/homepage/guardados/<int:page>/<int:id_trabajo>")
+def guardados(page = 1,id_trabajo = None):
     #data usu
     cur = mysql.connection.cursor()
     cur.execute("SELECT Nombre, Apellidos FROM aspirantes WHERE id ={0}".format(session["usuario"]))
     data_usu = cur.fetchall()
     #data empleos guardados
     sql = """
+<<<<<<< HEAD
     SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil
+=======
+    SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil, job.ID 
+>>>>>>> 62520681548b22350ccf9e99988cff1ef33366db
     FROM empleos job, empresa c, aspirantes_empleos ae, aspirantes a
     WHERE job.idEmpresa = c.ID
     AND job.ID = ae.idEmpleos
     AND a.ID = ae.idAspirante
     AND ae.Estado = 1
-    LIMIT {0}, 10""".format( str(10*(id-1)))
+    LIMIT {0}, 10""".format( str(10*(page-1)))
     #print(sql)
     cur.execute(sql)
     data = cur.fetchall()
     if len(data) == 0:
         flash("No hay resultados")
-    return render_template('homepage.html', info_usu = data_usu[0], empleos = data )
+    
+    #path
+    path = "homepage/guardados/"+str(page)+"/"
+
+    #Empleo seleccionado
+    if id_trabajo:
+        sql = "SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil,job.Descripcion  FROM empleos job, empresa c WHERE job.idEmpresa = c.ID AND job.ID = {0}".format(id_trabajo)
+        print(sql)
+        cur.execute(sql)
+        data_trabajo = cur.fetchall()
+        return render_template('homepage.html', info_usu = data_usu[0], empleos = data,path = path, page = page, empleo_seleccionado= data_trabajo[0] )
+    else:
+        return render_template('homepage.html', info_usu = data_usu[0], empleos = data,path = path,page = page)
 
 @app.route("/homepage/postulados/")
-@app.route("/homepage/postulados/<int:id>")
-def postulados(id = 1):
+@app.route("/homepage/postulados/<int:page>")
+@app.route("/homepage/postulados/<int:page>/<int:id_trabajo>")
+def postulados(page = 1, id_trabajo = None):
     #data usu
     cur = mysql.connection.cursor()
     cur.execute("SELECT Nombre, Apellidos FROM aspirantes WHERE id ={0}".format(session["usuario"]))
     data_usu = cur.fetchall()
     #data empleos guardados
     sql = """
+<<<<<<< HEAD
     SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil
+=======
+    SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil, job.ID
+>>>>>>> 62520681548b22350ccf9e99988cff1ef33366db
     FROM empleos job, empresa c, aspirantes_empleos ae, aspirantes a
     WHERE job.idEmpresa = c.ID
     AND job.ID = ae.idEmpleos
     AND a.ID = ae.idAspirante
     AND ae.Estado = 2
-    LIMIT {0}, 10""".format( str(10*(id-1)))
+    LIMIT {0}, 10""".format( str(10*(page-1)))
     #print(sql)
     cur.execute(sql)
     data = cur.fetchall()
     if len(data) == 0:
         flash("No hay resultados")
-    return render_template('homepage.html', info_usu = data_usu[0], empleos = data )
 
-@app.route("/homepage/search/", methods=["POST"])
-#@app.route("/homepage/search/<int:id>", methods=["POST"])
-def busqueda(id = 1, path = None):
+    #path
+    path = "homepage/postulados/"+str(page)+"/"
+    
+    #Empleo seleccionado
+    if id_trabajo:
+        sql = "SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil,job.Descripcion  FROM empleos job, empresa c WHERE job.idEmpresa = c.ID AND job.ID = {0}".format(id_trabajo)
+        print(sql)
+        cur.execute(sql)
+        data_trabajo = cur.fetchall()
+        return render_template('homepage.html', info_usu = data_usu[0], empleos = data,path = path, page = page, empleo_seleccionado= data_trabajo[0] )
+    else:
+        return render_template('homepage.html', info_usu = data_usu[0], empleos = data,path = path,page = page)
+
+@app.route("/homepage/search", methods=['GET', 'POST'])
+def busqueda():
     #data usu
     cur = mysql.connection.cursor()
     cur.execute("SELECT Nombre, Apellidos FROM aspirantes WHERE id ={0}".format(session["usuario"]))
+<<<<<<< HEAD
     data_usu = cur.fetchall()
     #
 
     return render_template('homepage.html', info_usu = data_usu[0])
+=======
+    data_usu = cur.fetchall()   
+    #Tomar el valor del cuadro de busqueda
+    search = request.values.get("busqueda")
+    try:
+        page = request.values.get("page")
+        page = int(page)
+    except:
+        page = 1    
+    id = request.values.get("id")
+    #print(search)
+    #print("page",page)
+    #print("id", id)
+    #buqueda
+    sql = """
+    SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil, job.ID 
+    FROM empleos job, empresa c
+    WHERE job.idEmpresa = c.ID
+    AND job.Titulo like '%""" +search+"""%'
+    LIMIT {0}, 10""".format( str(10*(page-1)))
+    cur.execute(sql)
+    data = cur.fetchall()
+    if len(data) == 0:
+        flash("No hay resultados")
+    
+    #path
+    path = "homepage/search?busqueda="+search+"&page="+str(page)+"&id="
+>>>>>>> 62520681548b22350ccf9e99988cff1ef33366db
 
+    #empleo seleccionado
+    if(id):
+        print(id)
+        sql = "SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil,job.Descripcion  FROM empleos job, empresa c WHERE job.idEmpresa = c.ID AND job.ID = {0}".format(id)
+        print(sql)
+        cur.execute(sql)
+        data_trabajo = cur.fetchall()
+        data_trabajo = data_trabajo[0]
+        return render_template('homepage.html', info_usu = data_usu[0], empleos = data,page = id, termino =  search, path = path, empleo_seleccionado = data_trabajo)
+    else:
+        return render_template('homepage.html', info_usu = data_usu[0], empleos = data,page = id, termino =  search, path = path)
 
 
 @app.route("/hacer_login", methods=["POST"])
@@ -151,15 +246,15 @@ def hacer_login():
     #print(contra)
     cursor=mysql.connection.cursor()
 
-    sql_empresas = "SELECT * FROM empresa where correoElectronico= '"+correo+"' and Contraseña='"+contra+"'"
-    sql_aspirantes= "SELECT * FROM aspirantes where correoElectronico= '"+correo+"' and Contraseña='"+contra+"'"
+    sql_empresas = "SELECT ID FROM empresa where correoElectronico= '"+correo+"' and Contraseña='"+contra+"'"
+    sql_aspirantes= "SELECT ID FROM aspirantes where correoElectronico= '"+correo+"' and Contraseña='"+contra+"'"
 
     try:
         cursor.execute(sql_aspirantes)
         results = cursor.fetchall()
         #print(results)
         if len(results)==1:
-            session["usuario"] = correo
+            session["usuario"] = results[0][0]
             #home de aspirante
             return redirect("/homepage")
         else:
@@ -167,7 +262,7 @@ def hacer_login():
             results = cursor.fetchall()
             #print(results)
             if len(results)==1:
-                session["usuario"] = correo
+                session["usuario"] = results[0][0]
                 #home de empresa
                 return redirect("/homepage")
             else:
