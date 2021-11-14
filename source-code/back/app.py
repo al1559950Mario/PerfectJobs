@@ -69,10 +69,6 @@ def formularioAspirantes():
     return render_template('formularioAspirantes.html')
 
 @app.route("/homepage")
-<<<<<<< HEAD
-def index():
-    return render_template('homepage.html')
-=======
 @app.route("/homepage/<int:id>")
 def index(id = 1):
     #data usu
@@ -86,7 +82,6 @@ def index(id = 1):
     data = cur.fetchall()
 
     return render_template('homepage.html', info_usu = data_usu[0], empleos = data )
->>>>>>> c91459786e9ce4342345df2a8117dfdd80696d44
 
 @app.route("/homepage/guardados/")
 @app.route("/homepage/guardados/<int:id>")
@@ -134,18 +129,34 @@ def postulados(id = 1):
         flash("No hay resultados")
     return render_template('homepage.html', info_usu = data_usu[0], empleos = data )
 
-@app.route("/homepage/search/", methods=["POST"])
-#@app.route("/homepage/search/<int:id>", methods=["POST"])
-def busqueda(id = 1, path = None):
+@app.route("/homepage/search/", methods=['GET', 'POST'])
+@app.route("/homepage/search/<int:id>", methods=['GET', 'POST'])
+def busqueda(id = 1):
     #data usu
     cur = mysql.connection.cursor()
     cur.execute("SELECT Nombre, Apellidos FROM aspirantes WHERE id ={0}".format(session["usuario"]))
     data_usu = cur.fetchall()   
-    #
-
-    return render_template('homepage.html', info_usu = data_usu[0])
-
-
+    #Tomar el valor del cuadro de busqueda
+    search = request.values.get("busqueda")
+    separar = search.split('/')
+    search = separar[0]
+    try:
+        id = int(separar[1])
+    except IndexError:
+        id = 1
+    #buqueda
+    sql = """
+    SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil  
+    FROM empleos job, empresa c
+    WHERE job.idEmpresa = c.ID
+    AND job.Titulo like '%""" +search+"""%'
+    LIMIT {0}, 10""".format( str(10*(id-1)))
+    print(sql)
+    cur.execute(sql)
+    data = cur.fetchall()
+    if len(data) == 0:
+        flash("No hay resultados")
+    return render_template('homepage.html', info_usu = data_usu[0],  empleos = data, termino = search)
 
 @app.route("/hacer_login", methods=["POST"])
 def hacer_login():
@@ -155,15 +166,15 @@ def hacer_login():
     #print(contra)
     cursor=mysql.connection.cursor()
 
-    sql_empresas = "SELECT * FROM empresa where correoElectronico= '"+correo+"' and Contraseña='"+contra+"'"
-    sql_aspirantes= "SELECT * FROM aspirantes where correoElectronico= '"+correo+"' and Contraseña='"+contra+"'"
+    sql_empresas = "SELECT ID FROM empresa where correoElectronico= '"+correo+"' and Contraseña='"+contra+"'"
+    sql_aspirantes= "SELECT ID FROM aspirantes where correoElectronico= '"+correo+"' and Contraseña='"+contra+"'"
 
     try:
         cursor.execute(sql_aspirantes)
         results = cursor.fetchall()
         #print(results)
         if len(results)==1:
-            session["usuario"] = correo
+            session["usuario"] = results[0][0]
             #home de aspirante
             return redirect("/homepage")
         else:
@@ -171,7 +182,7 @@ def hacer_login():
             results = cursor.fetchall()
             #print(results)
             if len(results)==1:
-                session["usuario"] = correo
+                session["usuario"] = results[0][0]
                 #home de empresa
                 return redirect("/homepage")
             else:

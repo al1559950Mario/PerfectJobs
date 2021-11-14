@@ -35,11 +35,11 @@
           </div>
         </div>
         <section id="search-bar">
-          <form id="form-search" action="#">
+          <form id="form-search" action="{{ url_for('busqueda') }}" method="post, get">
             <button id="search-btn">
               <span class="material-icons-round"> search </span>
             </button>
-            <input name="busqueda" type="search" placeholder="Buscar empleo" />
+            <input name="busqueda" type="text" placeholder="Buscar empleo" value = "{{termino}}"/>
           </form>
         </section>
         <section id="nav-btns">
@@ -197,6 +197,7 @@
         </div>
       </section>
     </section>
+
     <script src="{{ url_for('static', filename='js/darkmode.js') }}"></script>
   </body>
 </html>
