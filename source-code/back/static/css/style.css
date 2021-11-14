@@ -440,3 +440,8 @@ input[name="busqueda"]:focus {
   border-right: 1px solid white;
   border-left: 1px solid white;
 }
+
+#link{
+  color: black;
+  text-decoration: none;
+}
