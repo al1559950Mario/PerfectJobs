@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request,redirect, session, flash
 from flask.helpers import url_for
 from flask_mysqldb import MySQL
+#regular expression 
+import re
 
 #Se crea una aplicacion flask
 app= Flask(__name__)
@@ -87,7 +89,11 @@ def index(page = 1, id_trabajo = None):
     path = "homepage/"+str(page)+"/"
     #Empleo seleccionado
     if id_trabajo:
-        sql = "SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil,job.Descripcion  FROM empleos job, empresa c WHERE job.idEmpresa = c.ID AND job.ID = {0}".format(id_trabajo)
+        sql = """
+        SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil,job.Descripcion, job.ID
+        FROM empleos job, empresa c 
+        WHERE job.idEmpresa = c.ID 
+        AND job.ID = {0}""".format(id_trabajo)
         print(sql)
         cur.execute(sql)
         data_trabajo = cur.fetchall()
@@ -123,7 +129,11 @@ def guardados(page = 1,id_trabajo = None):
 
     #Empleo seleccionado
     if id_trabajo:
-        sql = "SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil,job.Descripcion  FROM empleos job, empresa c WHERE job.idEmpresa = c.ID AND job.ID = {0}".format(id_trabajo)
+        sql = """
+        SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil,job.Descripcion, job.ID
+        FROM empleos job, empresa c 
+        WHERE job.idEmpresa = c.ID 
+        AND job.ID = {0}""".format(id_trabajo)
         print(sql)
         cur.execute(sql)
         data_trabajo = cur.fetchall()
@@ -159,8 +169,12 @@ def postulados(page = 1, id_trabajo = None):
     
     #Empleo seleccionado
     if id_trabajo:
-        sql = "SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil,job.Descripcion  FROM empleos job, empresa c WHERE job.idEmpresa = c.ID AND job.ID = {0}".format(id_trabajo)
-        print(sql)
+        sql = """
+        SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil,job.Descripcion, job.ID
+        FROM empleos job, empresa c 
+        WHERE job.idEmpresa = c.ID 
+        AND job.ID = {0}""".format(id_trabajo)
+        
         cur.execute(sql)
         data_trabajo = cur.fetchall()
         return render_template('homepage.html', info_usu = data_usu[0], empleos = data,path = path, page = page, empleo_seleccionado= data_trabajo[0] )
@@ -202,14 +216,18 @@ def busqueda():
     #empleo seleccionado
     if(id):
         print(id)
-        sql = "SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil,job.Descripcion  FROM empleos job, empresa c WHERE job.idEmpresa = c.ID AND job.ID = {0}".format(id)
+        sql = """
+        SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil,job.Descripcion, job.ID
+        FROM empleos job, empresa c 
+        WHERE job.idEmpresa = c.ID 
+        AND job.ID = {0}""".format(id)
         print(sql)
         cur.execute(sql)
         data_trabajo = cur.fetchall()
         data_trabajo = data_trabajo[0]
-        return render_template('homepage.html', info_usu = data_usu[0], empleos = data,page = id, termino =  search, path = path, empleo_seleccionado = data_trabajo)
+        return render_template('homepage.html', info_usu = data_usu[0], empleos = data,page = page, termino =  search, path = path, empleo_seleccionado = data_trabajo)
     else:
-        return render_template('homepage.html', info_usu = data_usu[0], empleos = data,page = id, termino =  search, path = path)
+        return render_template('homepage.html', info_usu = data_usu[0], empleos = data,page = page, termino =  search, path = path)
 
 
 @app.route("/hacer_login", methods=["POST"])
@@ -248,6 +266,109 @@ def hacer_login():
         print("Esta llegando al except")
         return redirect("/login.html")
 
+"""
+Estado en aspirantes_empleos
+1 - Guardados
+2 - Postulados
+3 - No me interesa
+"""
+
+@app.route("/<path:path>/Guardar/<int:numero>")
+def guardar(path, numero):
+    cur = mysql.connection.cursor()
+    cur.execute("""
+    SELECT * FROM aspirantes_empleos 
+    WHERE idAspirante ={0}
+    AND idEmpleos = {1}""".format(session["usuario"], numero))
+    row_empleo = cur.fetchall()   
+    #Si no hay ningun registro, hago un insert  
+    if len(row_empleo) == 0:
+        cur.execute("""
+        insert into aspirantes_empleos (idAspirante, idEmpleos, Estado )
+        values (%s,%s,%s)
+        """,
+        ( session["usuario"],numero, 1))
+        mysql.connection.commit()
+        print("Se ha insertado un registro")
+    else:
+        #Si ya habia un registro, entonces se hace un update
+        cur.execute("""
+        UPDATE aspirantes_empleos 
+        SET Estado = 1
+        WHERE idAspirante ={0}
+        AND idEmpleos = {1}""".format(session["usuario"], numero)),
+        mysql.connection.commit()
+        print("Se ha actualizado un registro")       
+    #obtengo el path, y lo redirecciono al path sin el /Guardar/<numero>
+    path = request.path
+    path = re.sub("\\/Guardar\\/\d\d?\d?\d?","",path)
+    print(path)
+    return redirect(path)
+
+@app.route("/<path:path>/Postular/<int:numero>")
+def Postular(path, numero):
+    cur = mysql.connection.cursor()
+    cur.execute("""
+    SELECT * FROM aspirantes_empleos 
+    WHERE idAspirante ={0}
+    AND idEmpleos = {1}""".format(session["usuario"], numero))
+    row_empleo = cur.fetchall()   
+    #Si no hay ningun registro, hago un insert  
+    if len(row_empleo) == 0:
+        cur.execute("""
+        insert into aspirantes_empleos (idAspirante, idEmpleos, Estado )
+        values (%s,%s,%s)
+        """,
+        ( session["usuario"],numero, 2))
+        mysql.connection.commit()
+        print("Se ha insertado un registro")
+    else:
+        #Si ya habia un registro, entonces se hace un update
+        cur.execute("""
+        UPDATE aspirantes_empleos 
+        SET Estado = 2
+        WHERE idAspirante ={0}
+        AND idEmpleos = {1}""".format(session["usuario"], numero)),
+        mysql.connection.commit()
+        print("Se ha actualizado un registro")       
+    #obtengo el path, y lo redirecciono al path sin el /Guardar/<numero>
+    path = request.path
+    path = re.sub("\\/Postular\\/\d\d?\d?\d?","",path)
+    print(path)
+    return redirect(path)
+
+@app.route("/<path:path>/NoMeInteresa/<int:numero>")
+def NoMeInteresa(path, numero):
+    cur = mysql.connection.cursor()
+    cur.execute("""
+    SELECT * FROM aspirantes_empleos 
+    WHERE idAspirante ={0}
+    AND idEmpleos = {1}""".format(session["usuario"], numero))
+    row_empleo = cur.fetchall()   
+    #Si no hay ningun registro, hago un insert  
+    if len(row_empleo) == 0:
+        cur.execute("""
+        insert into aspirantes_empleos (idAspirante, idEmpleos, Estado )
+        values (%s,%s,%s)
+        """,
+        ( session["usuario"],numero, 3))
+        mysql.connection.commit()
+        print("Se ha insertado un registro")
+    else:
+        #Si ya habia un registro, entonces se hace un update
+        cur.execute("""
+        UPDATE aspirantes_empleos 
+        SET Estado = 3
+        WHERE idAspirante ={0}
+        AND idEmpleos = {1}""".format(session["usuario"], numero)),
+        mysql.connection.commit()
+        print("Se ha actualizado un registro")       
+    #obtengo el path, y lo redirecciono al path sin el /Guardar/<numero>
+    path = request.path
+    path = re.sub("\\/NoMeInteresa\\/\d\d?\d?\d?","",path)
+    print(path)
+    return redirect(path)
+
 
 # Un "middleware" que se ejecuta antes de responder a cualquier ruta. Aquí verificamos si el usuario ha iniciado sesión
 @app.before_request
@@ -265,17 +386,6 @@ def logout():
     session.pop("usuario", None)
     print("pan")
     return redirect("/login.html")
-
-
-@app.route("/prueba_db")
-def prueba_db():
-    cur=mysql.connection.cursor()
-    cur.execute("select * from aspirantes")
-    print(cur)
-    consulta = cur.fetchone()
-    print(consulta)
-    cur.execute("show tables")
-    return "\n\nProbando db"
 
 if __name__=='__main__':
     app.run(port=3000, debug=True)
