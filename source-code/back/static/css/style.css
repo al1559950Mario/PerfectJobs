@@ -441,7 +441,11 @@ input[name="busqueda"]:focus {
   border-left: 1px solid white;
 }
 
-#link{
+#link {
   color: black;
   text-decoration: none;
+}
+
+.add-main-color {
+  background-color: red;
 }
