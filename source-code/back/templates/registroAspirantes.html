@@ -29,7 +29,7 @@
           <div class="card-body p-4 p-md-5">
             <img src="static/images/logo.png" class="img-fluid" width="50" style="margin-bottom: 20px;">
             <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Ingresa tus datos</h3>
-            <form action="{{url_for('registroasp1')}}" method="post">
+            <form action="{{url_for('formulario_aspirante')}}" method="post" enctype="multipart/form-data">
               <!-- Nombre -->
               <div class="row">
                 <div class="col-md-6 mb-1 pb-2">
@@ -171,13 +171,13 @@
               <div class="row">
                 <div class="col-md-4 mb-1 pb-2">
                   <div class="form-outline">
-                    <input type="email" name="soft" class="form-control form-control-lg" placeholder="Soft Skills" />
+                    <input type="text" name="soft" class="form-control form-control-lg" placeholder="Soft Skills" />
                   </div>
                 </div>
                 <!-- Hard Skills -->
                 <div class="col-md-4 mb-1 pb-2">
                   <div class="form-outline">
-                    <input type="tel" name="hard" class="form-control form-control-lg" placeholder="Hard Skills" />
+                    <input type="text" name="hard" class="form-control form-control-lg" placeholder="Hard Skills" />
                   </div>
                 </div>
                 <!-- Idiomas -->

@@ -21,6 +21,10 @@
     <title>Iniciar Sesión</title>
   </head>
   <body>
+    {% with messages = get_flashed_messages() %} {% if messages
+    %}
+    <p>{{m}}</p>
+    {% endif %} {% endwith %}
     <div class="jumbotron" style="background-color: transparent;">
       <div class="row">
         <div class="col" style="background-color: white">

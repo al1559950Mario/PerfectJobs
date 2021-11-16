@@ -7,7 +7,8 @@ import re
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-
+from werkzeug.utils import secure_filename
+import os
 
 #Se crea una aplicacion flask
 app= Flask(__name__)
@@ -32,9 +33,16 @@ def Index():
 def login():
     return render_template('login.html')
 
-@app.route("/registroAspirantes.html")
-def registroAspirantes():
+#Esta funcion es llamada desde el btn de la interfaz registroUsuario.html
+@app.route("/registroAspirante")
+def registroAspirante():
     return render_template('registroAspirantes.html')
+#Esta funcion es llamada desde el btn de la interfaz registroUsuario.html
+@app.route("/registroEmpresa")
+def registroEmpresa():
+    return render_template('registroEmpresa.html')
+
+#Esta funcion es llamada desde el boton del formularioAspirante
 @app.route("/formulario_aspirante", methods=["POST"])
 def formulario_aspirante():
     nombre = request.form["nombre"]
@@ -61,23 +69,22 @@ def formulario_aspirante():
         cursor.execute("SELECT ID from aspirantes WHERE Telefono="+telefono)
         id=cursor.fetchall()
         #Aqui le damos nombre al archivo de la fotoPerfil
-        filename= secure_filename(str(id[0][0]))
+        filename= secure_filename(str(id[0][0])+".png")
         print("El filename es: ",filename)
         #Aqui guardamos la imagen de perfil en la carpeta definida en UPLOAD_FOLDER='./static/profileimages'
-        f.save(os.path.join(app.config["UPLOAD_FOLDER"],filename))
+        fotoPerfil.save(os.path.join(app.config["UPLOAD_FOLDER"],filename))
         print(id,"    Holaaaa")
         url_id="/asp2/"+str(id[0][0])
         print(url_id)
         mysql.connection.commit()
+        #Hay que mandar un mensaje flash al sitio web
+        flash("Se ha creado el nuevo usuario! por favor inicie sesión.")
         #aqui debe ir a la siguiente pantalla del registro
+        return render_template("/login.html")
     else:
         #<<<<<<<Hay que retornar una alerta de que las contraseñas no coinciden
         flash("Error en la contraseña")
         return redirect("/registroAspirantes.html")
-
-@app.route("/registroEmpresa.html")
-def registroEmpresa():
-    return render_template('registroEmpresa.html')
 @app.route("/formulario_empresa")
 def formulario_empresa():
     nombre = request.form["nombre"]
@@ -103,8 +110,7 @@ def registroUsuario():
 @app.route("/formularioEmpresa.html")
 def formularioEmpresa():
     return render_template('formularioEmpresa.html')
-
-@app.route("/formularioAspirantes.html")
+@app.route("/formularioAspirantes")
 def formularioAspirantes():
     return render_template('formularioAspirantes.html')
 @app.route("/homepage")
