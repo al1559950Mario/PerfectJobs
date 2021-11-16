@@ -21,14 +21,14 @@
     <title>Aspirante | Sign Up</title>
   </head>
   <body style="background-image: linear-gradient(to bottom right, #1666c5, #4895ef, #8ecae6); background-repeat: no-repeat;">
-    <section class="vh-100">
+    <section>
   <div class="container py-5 h-100">
     <div class="row justify-content-center align-items-center h-100">
       <div class="col-12 col-lg-9 col-xl-7">
         <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
           <div class="card-body p-4 p-md-5">
             <img src="static/images/logo.png" class="img-fluid" width="50" style="margin-bottom: 20px;">
-            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Crea una cuenta</h3>
+            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Ingresa tus datos</h3>
             <form action="{{url_for('registroasp1')}}" method="post">
               <!-- Nombre -->
               <div class="row">
@@ -118,9 +118,88 @@
                   </div>
                 </div>
               </div>
+              <!-- Escolaridad -->
+              <div class="row">
+                <div class="col-md-6 mb-1 pb-2">
+                  <div class="form-outline">
+                    <label for="nivelEscolaridad">Nivel de escolaridad</label>
+                    <select class="form-select" name="escolaridad">
+                      <option value="">Selecciona una opción</option>
+                      <option value="Ninguno">Ninguno</option>
+                      <option value="Primaria">Primaria</option>
+                      <option value="Secundaria trunca o en curso">Secundaria trunca o en curso</option>
+                      <option value="Secundaria terminada">Secundaria terminada</option>
+                      <option value="Bachillerato trunco o en curso">Bachillerato trunco o en curso</option>
+                      <option value="Bachillerato terminado">Bachillerato terminado</option>
+                      <option value="Técnico superior trunco o en curso">Técnico superior trunco o en curso</option>
+                      <option value="Técnico superior terminado">Técnico superior terminado</option>
+                      <option value="Licenciatura trunca o en curso">Licenciatura trunca o en curso</option>
+                      <option value="Licenciatura terminada">Licenciatura terminada</option>
+                      <option value="Maestría trunca o en curso">Maestría trunca o en curso</option>
+                      <option value="Maestría terminada">Maestría terminada</option>
+                      <option value="Doctorado trunco o en curso">Doctorado trunco o en curso</option><option value="Doctorado terminado">Doctorado terminado</option>
+                      <option value="other">Otro</option>
+                    </select>
+                  </div>
+                </div>
+                <!-- Experiencia Laboral -->
+                <div class="col-md-6 mb-1 pb-2">
+                  <div class="form-outline">
+                    <label for="experienciaLaboral">Experiencia Laboral</label>
+                    <select class="form-select" name="experienciaLaboral">
+                      <option value="">Selecciona una opción</option>
+                      <option value="Ninguno">Ninguno</option>
+                      <option value="Primaria">Primaria</option>
+                      <option value="Secundaria trunca o en curso">Secundaria trunca o en curso</option>
+                      <option value="Secundaria terminada">Secundaria terminada</option>
+                      <option value="Bachillerato trunco o en curso">Bachillerato trunco o en curso</option>
+                      <option value="Bachillerato terminado">Bachillerato terminado</option>
+                      <option value="Técnico superior trunco o en curso">Técnico superior trunco o en curso</option>
+                      <option value="Técnico superior terminado">Técnico superior terminado</option>
+                      <option value="Licenciatura trunca o en curso">Licenciatura trunca o en curso</option>
+                      <option value="Licenciatura terminada">Licenciatura terminada</option>
+                      <option value="Maestría trunca o en curso">Maestría trunca o en curso</option>
+                      <option value="Maestría terminada">Maestría terminada</option>
+                      <option value="Doctorado trunco o en curso">Doctorado trunco o en curso</option><option value="Doctorado terminado">Doctorado terminado</option>
+                      <option value="other">Otro</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <hr>
+              <!-- Soft Skills -->
+              <div class="row">
+                <div class="col-md-4 mb-1 pb-2">
+                  <div class="form-outline">
+                    <input type="email" name="soft" class="form-control form-control-lg" placeholder="Soft Skills" />
+                  </div>
+                </div>
+                <!-- Hard Skills -->
+                <div class="col-md-4 mb-1 pb-2">
+                  <div class="form-outline">
+                    <input type="tel" name="hard" class="form-control form-control-lg" placeholder="Hard Skills" />
+                  </div>
+                </div>
+                <!-- Idiomas -->
+                <div class="col-md-4 mb-1 pb-2">
+                  <div class="form-outline">
+                    <input type="text" name="idiomas" class="form-control form-control-lg" placeholder="Idiomas" />
+                  </div>
+                </div>
+              </div>
+              <hr>
+              <!-- Foto Perfil -->
+              <div class="row">
+                <div class="col-md-8 mb-4">
+                  <div class="form-outline">
+                    <label for="fotoPerfil">Foto de Perfil</label>
+                    <input type="file" name="fotoPerfil" class="form-control form-control-lg" accept="image/png, image/jpeg"/>
+                  </div>
+                </div>
+              </div>
               <!-- Botón -->
               <div class="mt-4 pt-2">
-                <a href="{{url_for('formularioAspirantes')}}"> <input class="btn btn-primary btn-lg" type="submit" value="Continuar" /> </a>
+                <a href="{{url_for('hacer_login')}}"> <input class="btn btn-primary btn-lg" type="submit" value="Crear cuenta" /> </a>
               </div>
             </form>
           </div>
