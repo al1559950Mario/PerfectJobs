@@ -11,6 +11,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 #Se crea una aplicacion flask
 app= Flask(__name__)
+app.config['UPLOAD_FOLDER']='./static/profileimages'
 
 #Se especifica en donde estara la base de datos, por ejemplo localhost
 app.config['MYSQL_HOST']='bfrbtunhryqfh3eywkgx-mysql.services.clever-cloud.com'
@@ -45,6 +46,11 @@ def registroasp1():
     contraseña = request.form["contraseña"]
     confirmarContraseña = request.form["confirmarContraseña"]
     escolaridad= request.form["escolaridad"]
+    experienciaLaboral= request.form["experienciaLaboral"]
+    soft= request.form["soft"]
+    hard= request.form["hard"]
+    idiomas= request.form["idiomas"]
+    fotoPerfil= request.files["fotoPerfil"]
     if contraseña==confirmarContraseña and contraseña:
         cursor=mysql.connection.cursor()
         cursor.execute("""INSERT into aspirantes (ID, Nombre, Apellidos, fechaNacimiento, Genero, Telefono, correoElectronico, Contraseña)
@@ -54,6 +60,11 @@ def registroasp1():
         )
         cursor.execute("SELECT ID from aspirantes WHERE Telefono="+telefono)
         id=cursor.fetchall()
+        #Aqui le damos nombre al archivo de la fotoPerfil
+        filename= secure_filename(str(id[0][0]))
+        print("El filename es: ",filename)
+        #Aqui guardamos la imagen de perfil en la carpeta definida en UPLOAD_FOLDER='./static/profileimages'
+        f.save(os.path.join(app.config["UPLOAD_FOLDER"],filename))
         print(id,"    Holaaaa")
         url_id="/asp2/"+str(id[0][0])
         print(url_id)
@@ -87,6 +98,17 @@ def formulario_empresa():
         (None, nombre, correo, contraseña)
         )
     return render_template("formularioEmpresa.html")
+@app.route("/registroUsuarios")
+def registroUsuario():
+    return render_template('registroUsuarios.html')
+
+@app.route("/formularioEmpresa.html")
+def formularioEmpresa():
+    return render_template('formularioEmpresa.html')
+
+@app.route("/formularioAspirantes.html")
+def formularioAspirantes():
+    return render_template('formularioAspirantes.html')
 @app.route("/homepage")
 @app.route("/homepage/<int:page>")
 @app.route("/homepage/<int:page>/<int:id_trabajo>")
