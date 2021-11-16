@@ -34,7 +34,11 @@ def login():
 @app.route("/registroAspirantes.html")
 def registroAspirantes():
     return render_template('registroAspirantes.html')
+<<<<<<< HEAD
 
+=======
+#registro formulario 1 aspirante
+>>>>>>> 5eb23e026783b4f2c2a00b2eef77abf711afe89e
 @app.route("/asp1", methods=["POST"])
 def registroasp1():
     nombre = request.form["nombre"]
@@ -52,17 +56,30 @@ def registroasp1():
         """,
         (None, nombre, apellidos, fechaNacimiento, gender,  telefono, correo, contraseña)
         )
+<<<<<<< HEAD
+=======
+        cursor.execute("SELECT ID from aspirantes WHERE Telefono="+telefono)
+        id=cursor.fetchall()
+        url_id="/asp2/"+str(id[0][0])
+>>>>>>> 5eb23e026783b4f2c2a00b2eef77abf711afe89e
         mysql.connection.commit()
         #aqui debe ir a la siguiente pantalla del registro
-        return redirect("/homepage")
+        return redirect(url_id)
     else:
         #<<<<<<<Hay que retornar una alerta de que las contraseñas no coinciden
         flash("Error en la contraseña")
         return redirect("/registroAspirantes.html")
+#
+@app.route("/asp2/<id>", methods=['GET'])
+def registroasp2(id):
+    print(id)
+    print("Hola..............")
+    return render_template("/formularioAspirantes.html")
 
 @app.route("/registroEmpresa")
 def registroEmpresa():
     return render_template('registroEmpresa.html')
+<<<<<<< HEAD
 
 @app.route("/registroUsuarios")
 def registroUsuario():
@@ -76,6 +93,22 @@ def formularioEmpresa():
 def formularioAspirantes():
     return render_template('formularioAspirantes.html')
 
+=======
+@app.route("formulario_empresa")
+def formulario_empresa():
+    nombre = request.form["nombre"]
+    correo = request.form["correo"]
+    contraseña = request.form["contraseña"]
+    confirmarContraseña = request.form["confirmarContraseña"]
+    if contraseña==confirmarContraseña and contraseña:
+        cursor=mysql.connection.cursor()
+        cursor.execute("""INSERT into empresa (ID, Nombre, correoElectronico, Contraseña)
+        values (%s,%s,%s,%s,%s,%s,%s,%s);
+        """,
+        (None, nombre, correo, contraseña)
+        )
+    return render_template("formularioEmpresa.html")
+>>>>>>> 5eb23e026783b4f2c2a00b2eef77abf711afe89e
 @app.route("/homepage")
 @app.route("/homepage/<int:page>")
 @app.route("/homepage/<int:page>/<int:id_trabajo>")
@@ -120,7 +153,7 @@ def guardados(page = 1,id_trabajo = None):
     data_usu = cur.fetchall()
     #data empleos guardados
     sql = """
-    SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil, job.ID 
+    SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil, job.ID
     FROM empleos job, empresa c, aspirantes_empleos ae, aspirantes a
     WHERE job.idEmpresa = c.ID
     AND job.ID = ae.idEmpleos
@@ -132,7 +165,7 @@ def guardados(page = 1,id_trabajo = None):
     data = cur.fetchall()
     if len(data) == 0:
         flash("No hay resultados")
-    
+
     #path
     path = "homepage/guardados/"+str(page)+"/"
 
@@ -175,7 +208,7 @@ def postulados(page = 1, id_trabajo = None):
 
     #path
     path = "homepage/postulados/"+str(page)+"/"
-    
+
     #Empleo seleccionado
     if id_trabajo:
         sql = """
@@ -195,21 +228,21 @@ def busqueda():
     #data usu
     cur = mysql.connection.cursor()
     cur.execute("SELECT Nombre, Apellidos FROM aspirantes WHERE id ={0}".format(session["usuario"]))
-    data_usu = cur.fetchall()   
+    data_usu = cur.fetchall()
     #Tomar el valor del cuadro de busqueda
     search = request.values.get("busqueda")
     try:
         page = request.values.get("page")
         page = int(page)
     except:
-        page = 1    
+        page = 1
     id = request.values.get("id")
     #print(search)
     #print("page",page)
     #print("id", id)
     #buqueda
     sql = """
-    SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil, job.ID 
+    SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil, job.ID
     FROM empleos job, empresa c
     WHERE job.idEmpresa = c.ID
     AND job.Titulo like '%""" +search+"""%'
@@ -218,7 +251,7 @@ def busqueda():
     data = cur.fetchall()
     if len(data) == 0:
         flash("No hay resultados")
-    
+
     #path
     path = "homepage/search?busqueda="+search+"&page="+str(page)+"&id="
 
