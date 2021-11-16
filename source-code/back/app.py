@@ -34,11 +34,6 @@ def login():
 @app.route("/registroAspirantes.html")
 def registroAspirantes():
     return render_template('registroAspirantes.html')
-<<<<<<< HEAD
-
-=======
-#registro formulario 1 aspirante
->>>>>>> 5eb23e026783b4f2c2a00b2eef77abf711afe89e
 @app.route("/asp1", methods=["POST"])
 def registroasp1():
     nombre = request.form["nombre"]
@@ -56,15 +51,11 @@ def registroasp1():
         """,
         (None, nombre, apellidos, fechaNacimiento, gender,  telefono, correo, contraseña)
         )
-<<<<<<< HEAD
-=======
         cursor.execute("SELECT ID from aspirantes WHERE Telefono="+telefono)
         id=cursor.fetchall()
         url_id="/asp2/"+str(id[0][0])
->>>>>>> 5eb23e026783b4f2c2a00b2eef77abf711afe89e
         mysql.connection.commit()
         #aqui debe ir a la siguiente pantalla del registro
-        return redirect(url_id)
     else:
         #<<<<<<<Hay que retornar una alerta de que las contraseñas no coinciden
         flash("Error en la contraseña")
@@ -76,24 +67,9 @@ def registroasp2(id):
     print("Hola..............")
     return render_template("/formularioAspirantes.html")
 
-@app.route("/registroEmpresa")
+@app.route("/registroEmpresa.html")
 def registroEmpresa():
     return render_template('registroEmpresa.html')
-<<<<<<< HEAD
-
-@app.route("/registroUsuarios")
-def registroUsuario():
-    return render_template('registroUsuarios.html')
-
-@app.route("/formularioEmpresa.html")
-def formularioEmpresa():
-    return render_template('formularioEmpresa.html')
-
-@app.route("/formularioAspirantes.html")
-def formularioAspirantes():
-    return render_template('formularioAspirantes.html')
-
-=======
 @app.route("formulario_empresa")
 def formulario_empresa():
     nombre = request.form["nombre"]
@@ -108,7 +84,6 @@ def formulario_empresa():
         (None, nombre, correo, contraseña)
         )
     return render_template("formularioEmpresa.html")
->>>>>>> 5eb23e026783b4f2c2a00b2eef77abf711afe89e
 @app.route("/homepage")
 @app.route("/homepage/<int:page>")
 @app.route("/homepage/<int:page>/<int:id_trabajo>")
