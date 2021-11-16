@@ -70,7 +70,7 @@ def registroasp2(id):
 @app.route("/registroEmpresa.html")
 def registroEmpresa():
     return render_template('registroEmpresa.html')
-@app.route("formulario_empresa")
+@app.route("/formulario_empresa")
 def formulario_empresa():
     nombre = request.form["nombre"]
     correo = request.form["correo"]
