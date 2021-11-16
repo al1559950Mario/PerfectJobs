@@ -35,8 +35,8 @@ def login():
 @app.route("/registroAspirantes.html")
 def registroAspirantes():
     return render_template('registroAspirantes.html')
-@app.route("/asp1", methods=["POST"])
-def registroasp1():
+@app.route("/formulario_aspirante", methods=["POST"])
+def formulario_aspirante():
     nombre = request.form["nombre"]
     apellidos = request.form["apellidos"]
     fechaNacimiento = request.form["fechaNacimiento"]
@@ -74,12 +74,6 @@ def registroasp1():
         #<<<<<<<Hay que retornar una alerta de que las contraseñas no coinciden
         flash("Error en la contraseña")
         return redirect("/registroAspirantes.html")
-#
-@app.route("/asp2/<id>", methods=['GET'])
-def registroasp2(id):
-    print(id)
-    print("Hola..............")
-    return id
 
 @app.route("/registroEmpresa.html")
 def registroEmpresa():
@@ -90,6 +84,10 @@ def formulario_empresa():
     correo = request.form["correo"]
     contraseña = request.form["contraseña"]
     confirmarContraseña = request.form["confirmarContraseña"]
+    direccion= request.form["direccion"]
+    razonSocial= request.form["razonSocial"]
+    informacionContacto= request.form["informacionContacto"]
+    fotoPerfil= request.form["fotoPerfil"]
     if contraseña==confirmarContraseña and contraseña:
         cursor=mysql.connection.cursor()
         cursor.execute("""INSERT into empresa (ID, Nombre, correoElectronico, Contraseña)
