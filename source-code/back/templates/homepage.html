@@ -43,7 +43,7 @@
           </form>
         </section>
         <section id="nav-btns">
-          <a href="homepage.html" class="nav-btn">
+          <a href="{{ url_for('index') }}" class="nav-btn">
             <span class="material-icons-round"> home </span>
             Inicio
           </a>
@@ -68,7 +68,7 @@
       <aside id="sidebar">
         <section id="sidebar-btns">
           <div class="sidebar-btn">
-            <a href="#">
+            <a href="{{ url_for('recomendaciones') }}">
               <span>Recomendados</span>
               <span class="material-icons-round"> recommend </span>
             </a>
@@ -180,9 +180,15 @@
           {{empleo_seleccionado.4}}
         </div>
         <div class="job-options">
-          <div class="job-option"><span>No me interesa</span></div>
-          <div class="job-option">Guardar</div>
-          <div class="job-option">Postularse</div>
+          <a href="{{ request.path }}/NoMeInteresa/{{empleo_seleccionado.5}}" id = "link">
+            <div class="job-option">No me interesa</div>
+          </a>
+          <a href="{{ request.path }}/Guardar/{{empleo_seleccionado.5}}" id = "link">
+            <div class="job-option">Guardar</div>
+          </a>
+          <a href="{{ request.path }}/Postular/{{empleo_seleccionado.5}}" id = "link">
+            <div class="job-option">Postularse</div>
+          </a>
         </div>
       </section>
     </section>
