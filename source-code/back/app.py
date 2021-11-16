@@ -34,7 +34,6 @@ def login():
 @app.route("/registroAspirantes.html")
 def registroAspirantes():
     return render_template('registroAspirantes.html')
-#registro formulario 1 aspirante
 @app.route("/asp1", methods=["POST"])
 def registroasp1():
     nombre = request.form["nombre"]
@@ -60,7 +59,6 @@ def registroasp1():
         print(url_id)
         mysql.connection.commit()
         #aqui debe ir a la siguiente pantalla del registro
-        return redirect(url_id)
     else:
         #<<<<<<<Hay que retornar una alerta de que las contraseñas no coinciden
         flash("Error en la contraseña")
