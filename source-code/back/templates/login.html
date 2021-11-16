@@ -27,39 +27,53 @@
     {% endif %} {% endwith %}
     <div class="jumbotron" style="background-color: transparent;">
       <div class="row">
-        <div class="col" style="background-color: white">
-          <div class="form-group">
+        <!-- Login -->
+        <div class="col" align="left" style="background-color: white;">
+          <div class="form-group" style="margin-left: 150px; margin-top: 75px;">
             <h1 style="color: #1666c5; font-weight: bolder; font-size: 72px">Perfect Jobs</h1>
             <h3 style="color: #3751fe; font-weight: bold; font-size: 36px">Welcome to your <br> professional community</h3>
             <br>
-            <h6 class="text-muted">Welcome back! Please login to your account</h6>
-
+            <h6 class="text-muted" style="margin-bottom: 50px;">Welcome back! Please login to your account</h6>
             <form action="{{url_for('hacer_login')}}" method="post">
-              <div class="form-group mt-5 mb-2">
-                <input type="email" class="form-control-lg" name="correo" placeholder="Enter email">
+              <!-- Correo electrónico -->
+              <div class="form-group mt-2 mb-2">
+                <input type="email" class="form-control-lg" name="correo" placeholder="Enter email" style="padding-left: 155px;">
               </div>
-              <div class="form-group">
-                <input type="password" class="form-control-lg" name="contraseña" placeholder="Password">
+              <!-- Contraseña -->
+              <div class="form-group mt-2 mb-2">
+                <input type="password" class="form-control-lg" name="contraseña" placeholder="Password" style="padding-left: 155px;">
               </div>
-              <div class="form-check">
+              <!-- Remember me -->
+              <div class="form-check mt-2 mb-2">
                 <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                 <label class="form-check-label" for="rememberMe">Remember me</label>
-                <a href="#">Forgot Password?</a>
+                <a href="#" style="text-decoration: blink; margin-left: 135px;">Forgot Password?</a>
               </div>
-              <button type="submit" class="btn btn-primary">Login</button>
-              <a class="btn btn-primary" href="{{url_for('registroUsuario')}}" role="button">Sign Up</a>
+              <!-- Botón Login -->
+              <div class="col" style="margin-left: 75px;">
+              <button type="submit" class="btn btn-primary btn-lg" style="margin-top: 25px;">Login</button>
+              <!-- Botón Sign Up -->
+              <a class="btn btn-primary btn-lg" href="{{url_for('registroUsuario')}}" role="button" style="margin-top: 25px;margin-left: 50px;">Sign Up
+              </a>
+              </div>
             </form>
           </div>
         </div>
+        <!-- Botón Sign Up -->
         <div class="col">
-          <a href="{{url_for('registroUsuario')}}" style="text-decoration: none; margin-left: 625px;"> <button type="submit" class="btn btn-outline-primary btn-lg" style="margin-top: 25px">Sign Up</button> </a>
+          <a href="{{url_for('registroUsuario')}}" style="text-decoration: none; margin-left: 625px;">
+            <button type="submit" class="btn btn-outline-primary btn-lg" style="margin-top: 25px">Sign Up
+          </button>
+        </a>
           <br>
-          <img src="static/images/logo.png" width="500" style="margin-left: 125px; margin-top: 50px;">
+          <!-- Logo -->
+          <img src="static/images/logo.png" width="500" style="margin-left: 125px; margin-top: 25px;">
           <br><br><br><br>
         </div>
       </div>
     </div>
 <!-- BOOTSTRAP -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+</script>
 </body>
 </html>
