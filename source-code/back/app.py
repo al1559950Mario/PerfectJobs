@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request,redirect, session, flash
 from flask.helpers import url_for
 from flask_mysqldb import MySQL
-#regular expression 
+#regular expression
 import re
 #recommender system
 import pandas as pd
@@ -45,6 +45,7 @@ def registroasp1():
     telefono = request.form["telefono"]
     contraseña = request.form["contraseña"]
     confirmarContraseña = request.form["confirmarContraseña"]
+    escolaridad= request.form["escolaridad"]
     if contraseña==confirmarContraseña and contraseña:
         cursor=mysql.connection.cursor()
         cursor.execute("""INSERT into aspirantes (ID, Nombre, Apellidos, fechaNacimiento, Genero, Telefono, correoElectronico, Contraseña)
@@ -54,7 +55,9 @@ def registroasp1():
         )
         cursor.execute("SELECT ID from aspirantes WHERE Telefono="+telefono)
         id=cursor.fetchall()
+        print(id,"    Holaaaa")
         url_id="/asp2/"+str(id[0][0])
+        print(url_id)
         mysql.connection.commit()
         #aqui debe ir a la siguiente pantalla del registro
         return redirect(url_id)
@@ -67,12 +70,12 @@ def registroasp1():
 def registroasp2(id):
     print(id)
     print("Hola..............")
-    return render_template("/formularioAspirantes.html")
+    return id
 
 @app.route("/registroEmpresa.html")
 def registroEmpresa():
     return render_template('registroEmpresa.html')
-@app.route("formulario_empresa")
+@app.route("/formulario_empresa")
 def formulario_empresa():
     nombre = request.form["nombre"]
     correo = request.form["correo"]
@@ -95,9 +98,9 @@ def index(page = 1, id_trabajo = None):
     cur.execute("SELECT Nombre, Apellidos FROM aspirantes WHERE id ={0}".format(session["usuario"]))
     data_usu = cur.fetchall()
     #data empleos
-    sql = """SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil, job.ID  
-    FROM empleos job, empresa c 
-    WHERE job.idEmpresa = c.ID 
+    sql = """SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil, job.ID
+    FROM empleos job, empresa c
+    WHERE job.idEmpresa = c.ID
     LIMIT {0}, 10""".format( str(10*(page-1)))
     cur.execute(sql)
     data = cur.fetchall()
@@ -110,8 +113,8 @@ def index(page = 1, id_trabajo = None):
     if id_trabajo:
         sql = """
         SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil,job.Descripcion, job.ID
-        FROM empleos job, empresa c 
-        WHERE job.idEmpresa = c.ID 
+        FROM empleos job, empresa c
+        WHERE job.idEmpresa = c.ID
         AND job.ID = {0}""".format(id_trabajo)
         print(sql)
         cur.execute(sql)
@@ -150,8 +153,8 @@ def guardados(page = 1,id_trabajo = None):
     if id_trabajo:
         sql = """
         SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil,job.Descripcion, job.ID
-        FROM empleos job, empresa c 
-        WHERE job.idEmpresa = c.ID 
+        FROM empleos job, empresa c
+        WHERE job.idEmpresa = c.ID
         AND job.ID = {0}""".format(id_trabajo)
         print(sql)
         cur.execute(sql)
@@ -190,10 +193,10 @@ def postulados(page = 1, id_trabajo = None):
     if id_trabajo:
         sql = """
         SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil,job.Descripcion, job.ID
-        FROM empleos job, empresa c 
-        WHERE job.idEmpresa = c.ID 
+        FROM empleos job, empresa c
+        WHERE job.idEmpresa = c.ID
         AND job.ID = {0}""".format(id_trabajo)
-        
+
         cur.execute(sql)
         data_trabajo = cur.fetchall()
         return render_template('homepage.html', info_usu = data_usu[0], empleos = data,path = path, page = page, empleo_seleccionado= data_trabajo[0] )
@@ -237,8 +240,8 @@ def busqueda():
         print(id)
         sql = """
         SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil,job.Descripcion, job.ID
-        FROM empleos job, empresa c 
-        WHERE job.idEmpresa = c.ID 
+        FROM empleos job, empresa c
+        WHERE job.idEmpresa = c.ID
         AND job.ID = {0}""".format(id)
         print(sql)
         cur.execute(sql)
@@ -297,11 +300,11 @@ Estado en aspirantes_empleos
 def guardar(path, numero):
     cur = mysql.connection.cursor()
     cur.execute("""
-    SELECT * FROM aspirantes_empleos 
+    SELECT * FROM aspirantes_empleos
     WHERE idAspirante ={0}
     AND idEmpleos = {1}""".format(session["usuario"], numero))
-    row_empleo = cur.fetchall()   
-    #Si no hay ningun registro, hago un insert  
+    row_empleo = cur.fetchall()
+    #Si no hay ningun registro, hago un insert
     if len(row_empleo) == 0:
         cur.execute("""
         insert into aspirantes_empleos (idAspirante, idEmpleos, Estado )
@@ -313,12 +316,12 @@ def guardar(path, numero):
     else:
         #Si ya habia un registro, entonces se hace un update
         cur.execute("""
-        UPDATE aspirantes_empleos 
+        UPDATE aspirantes_empleos
         SET Estado = 1
         WHERE idAspirante ={0}
         AND idEmpleos = {1}""".format(session["usuario"], numero)),
         mysql.connection.commit()
-        print("Se ha actualizado un registro")       
+        print("Se ha actualizado un registro")
     #obtengo el path, y lo redirecciono al path sin el /Guardar/<numero>
     path = request.path
     path = re.sub("\\/Guardar\\/\d\d?\d?\d?","",path)
@@ -329,11 +332,11 @@ def guardar(path, numero):
 def Postular(path, numero):
     cur = mysql.connection.cursor()
     cur.execute("""
-    SELECT * FROM aspirantes_empleos 
+    SELECT * FROM aspirantes_empleos
     WHERE idAspirante ={0}
     AND idEmpleos = {1}""".format(session["usuario"], numero))
-    row_empleo = cur.fetchall()   
-    #Si no hay ningun registro, hago un insert  
+    row_empleo = cur.fetchall()
+    #Si no hay ningun registro, hago un insert
     if len(row_empleo) == 0:
         cur.execute("""
         insert into aspirantes_empleos (idAspirante, idEmpleos, Estado )
@@ -345,12 +348,12 @@ def Postular(path, numero):
     else:
         #Si ya habia un registro, entonces se hace un update
         cur.execute("""
-        UPDATE aspirantes_empleos 
+        UPDATE aspirantes_empleos
         SET Estado = 2
         WHERE idAspirante ={0}
         AND idEmpleos = {1}""".format(session["usuario"], numero)),
         mysql.connection.commit()
-        print("Se ha actualizado un registro")       
+        print("Se ha actualizado un registro")
     #obtengo el path, y lo redirecciono al path sin el /Guardar/<numero>
     path = request.path
     path = re.sub("\\/Postular\\/\d\d?\d?\d?","",path)
@@ -361,11 +364,11 @@ def Postular(path, numero):
 def NoMeInteresa(path, numero):
     cur = mysql.connection.cursor()
     cur.execute("""
-    SELECT * FROM aspirantes_empleos 
+    SELECT * FROM aspirantes_empleos
     WHERE idAspirante ={0}
     AND idEmpleos = {1}""".format(session["usuario"], numero))
-    row_empleo = cur.fetchall()   
-    #Si no hay ningun registro, hago un insert  
+    row_empleo = cur.fetchall()
+    #Si no hay ningun registro, hago un insert
     if len(row_empleo) == 0:
         cur.execute("""
         insert into aspirantes_empleos (idAspirante, idEmpleos, Estado )
@@ -377,12 +380,12 @@ def NoMeInteresa(path, numero):
     else:
         #Si ya habia un registro, entonces se hace un update
         cur.execute("""
-        UPDATE aspirantes_empleos 
+        UPDATE aspirantes_empleos
         SET Estado = 3
         WHERE idAspirante ={0}
         AND idEmpleos = {1}""".format(session["usuario"], numero)),
         mysql.connection.commit()
-        print("Se ha actualizado un registro")       
+        print("Se ha actualizado un registro")
     #obtengo el path, y lo redirecciono al path sin el /Guardar/<numero>
     path = request.path
     path = re.sub("\\/NoMeInteresa\\/\d\d?\d?\d?","",path)
@@ -438,7 +441,7 @@ def generar_recomendaciones(id):
     count = CountVectorizer(stop_words=('english', "spanish"))
     count_matrix = count.fit_transform(df_rs['soup'])
     cosine_sim2 = cosine_similarity(count_matrix, count_matrix)
-    #Ordenar resultados 
+    #Ordenar resultados
     sim_scores = list(enumerate(cosine_sim2[idx]))
     sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
     #50 empleos a recomendar
@@ -460,28 +463,28 @@ def recomendaciones(page = 1, id_trabajo = None):
     print(session["recomendaciones"])
     cursor = mysql.connection.cursor()
     sql = """
-        SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil, job.ID  
-        FROM empleos job, empresa c 
-        WHERE job.idEmpresa = c.ID  AND 
+        SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil, job.ID
+        FROM empleos job, empresa c
+        WHERE job.idEmpresa = c.ID  AND
         job.ID IN {1}  LIMIT {0}, 10""".format( str(10*(page-1)), str(session["recomendaciones"]))
     print("consulta", sql)
     cursor.execute(sql)
     data = cursor.fetchall()
-    #print(data)  
+    #print(data)
     if len(data) == 0:
             flash("No hay resultados")
 
     #path
     path = "homepage/recomendaciones/"+str(page)+"/"
-    
+
     #Empleo seleccionado
     if id_trabajo:
         sql = """
         SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil,job.Descripcion, job.ID
-        FROM empleos job, empresa c 
-        WHERE job.idEmpresa = c.ID 
+        FROM empleos job, empresa c
+        WHERE job.idEmpresa = c.ID
         AND job.ID = {0}""".format(id_trabajo)
-        
+
         cur.execute(sql)
         data_trabajo = cur.fetchall()
         return render_template('homepage.html', info_usu = data_usu[0], empleos = data,path = path, page = page, empleo_seleccionado= data_trabajo[0] )
