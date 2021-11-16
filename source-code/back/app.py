@@ -3,6 +3,11 @@ from flask.helpers import url_for
 from flask_mysqldb import MySQL
 #regular expression 
 import re
+#recommender system
+import pandas as pd
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
 
 #Se crea una aplicacion flask
 app= Flask(__name__)
@@ -79,7 +84,10 @@ def index(page = 1, id_trabajo = None):
     cur.execute("SELECT Nombre, Apellidos FROM aspirantes WHERE id ={0}".format(session["usuario"]))
     data_usu = cur.fetchall()
     #data empleos
-    sql = "SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil, job.ID  FROM empleos job, empresa c WHERE job.idEmpresa = c.ID LIMIT {0}, 10".format( str(10*(page-1)))
+    sql = """SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil, job.ID  
+    FROM empleos job, empresa c 
+    WHERE job.idEmpresa = c.ID 
+    LIMIT {0}, 10""".format( str(10*(page-1)))
     cur.execute(sql)
     data = cur.fetchall()
     #mensaje si no hay resultados
@@ -247,6 +255,7 @@ def hacer_login():
         #print(results)
         if len(results)==1:
             session["usuario"] = results[0][0]
+            session["recomendaciones"] = generar_recomendaciones(session["usuario"])
             #home de aspirante
             return redirect("/homepage")
         else:
@@ -368,6 +377,105 @@ def NoMeInteresa(path, numero):
     path = re.sub("\\/NoMeInteresa\\/\d\d?\d?\d?","",path)
     print(path)
     return redirect(path)
+
+
+def clean_data(x):
+  if isinstance(x, str):
+      return str.lower(x.replace(" ", "").replace(",", " "))
+  else:
+      return ''
+
+def create_soup(df):
+  return "".join(df[2]) + ' ' + "".join(df[3]) + ' ' + "".join(df[4])
+
+def generar_recomendaciones(id):
+    cursor = mysql.connection.cursor()
+    #Dataframe de todos los empleos
+    cursor.execute("SELECT ID, Titulo, hardSkills,Idiomas,Escolaridad   FROM empleos")
+    data_empleos = pd.DataFrame(cursor.fetchall())
+    #metadata de los empleos
+    for i in range (2,4+1):
+        data_empleos[i] = data_empleos[i].apply(clean_data)
+    data_empleos["soup"] = data_empleos.apply(create_soup, axis=1)
+
+    #Datos del usuario aspirante
+    cursor.execute("SELECT ID, Nombre, hardSkills,Idiomas,Escolaridad FROM aspirantes WHERE id ={0}".format(id))#session["usuario"]
+    data_usuario = pd.DataFrame(cursor.fetchall())
+    data_usuario[1] = "skill_usuario_objetivo"
+    print(data_usuario)
+    #escolaridad, estandarizar a terminos que tienen los empleos
+    escolaridad = data_usuario.loc[0][4]
+    if(escolaridad == "Licenciatura terminada" or escolaridad == "Maestría trunca o en curso"):
+        data_usuario[4] = "Licenciatura, Bachelor"
+    elif(escolaridad == "Maestría terminada" or escolaridad == "Doctorado trunco o en curso"):
+        data_usuario[4] = "Maestria, Master"
+    elif(escolaridad == "Doctorado terminado"):
+        data_usuario[4] = "Doctorado, PhD"
+    else:
+        data_usuario[4]  = ""
+    #metadata del aspirante
+    for i in range (2,4+1):
+        data_usuario[i] = data_usuario[i].apply(clean_data)
+    data_usuario["soup"] = data_usuario.apply(create_soup, axis=1)
+    print("metadata del usu", data_usuario["soup"])
+    #df para hacer calculos
+    df_rs = pd.concat([data_empleos, data_usuario], axis=0)
+    #print(df_rs)
+    indices = pd.Series(df_rs.index, index=df_rs[1])
+    #print(indices)
+    idx = indices["skill_usuario_objetivo"]
+    count = CountVectorizer(stop_words=('english', "spanish"))
+    count_matrix = count.fit_transform(df_rs['soup'])
+    cosine_sim2 = cosine_similarity(count_matrix, count_matrix)
+    #Ordenar resultados 
+    sim_scores = list(enumerate(cosine_sim2[idx]))
+    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+    #50 empleos a recomendar
+    sim_scores = sim_scores[1:51]
+    #ID de los empleos a recomendar
+    jobs_indices = tuple([i[0] for i in sim_scores])
+
+    return jobs_indices
+
+@app.route("/homepage/recomendaciones/")
+@app.route("/homepage/recomendaciones/<int:page>")
+@app.route("/homepage/recomendaciones/<int:page>/<int:id_trabajo>")
+def recomendaciones(page = 1, id_trabajo = None):
+    #data usu
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT Nombre, Apellidos FROM aspirantes WHERE id ={0}".format(session["usuario"]))
+    data_usu = cur.fetchall()
+    #recomendaciones
+    print(session["recomendaciones"])
+    cursor = mysql.connection.cursor()
+    sql = """
+        SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil, job.ID  
+        FROM empleos job, empresa c 
+        WHERE job.idEmpresa = c.ID  AND 
+        job.ID IN {1}  LIMIT {0}, 10""".format( str(10*(page-1)), str(session["recomendaciones"]))
+    print("consulta", sql)
+    cursor.execute(sql)
+    data = cursor.fetchall()
+    #print(data)  
+    if len(data) == 0:
+            flash("No hay resultados")
+
+    #path
+    path = "homepage/recomendaciones/"+str(page)+"/"
+    
+    #Empleo seleccionado
+    if id_trabajo:
+        sql = """
+        SELECT job.Titulo, job.Ubicacion,c.Nombre, c.fotoPerfil,job.Descripcion, job.ID
+        FROM empleos job, empresa c 
+        WHERE job.idEmpresa = c.ID 
+        AND job.ID = {0}""".format(id_trabajo)
+        
+        cur.execute(sql)
+        data_trabajo = cur.fetchall()
+        return render_template('homepage.html', info_usu = data_usu[0], empleos = data,path = path, page = page, empleo_seleccionado= data_trabajo[0] )
+    else:
+        return render_template('homepage.html', info_usu = data_usu[0], empleos = data,path = path,page = page)
 
 
 # Un "middleware" que se ejecuta antes de responder a cualquier ruta. Aquí verificamos si el usuario ha iniciado sesión
