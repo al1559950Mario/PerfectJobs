@@ -34,6 +34,7 @@ def login():
 @app.route("/registroAspirantes.html")
 def registroAspirantes():
     return render_template('registroAspirantes.html')
+
 @app.route("/asp1", methods=["POST"])
 def registroasp1():
     nombre = request.form["nombre"]
@@ -51,7 +52,7 @@ def registroasp1():
         """,
         (None, nombre, apellidos, fechaNacimiento, gender,  telefono, correo, contraseña)
         )
-        mysql.commit()
+        mysql.connection.commit()
         #aqui debe ir a la siguiente pantalla del registro
         return redirect("/homepage")
     else:
@@ -59,11 +60,11 @@ def registroasp1():
         flash("Error en la contraseña")
         return redirect("/registroAspirantes.html")
 
-@app.route("/registroEmpresa.html")
+@app.route("/registroEmpresa")
 def registroEmpresa():
     return render_template('registroEmpresa.html')
 
-@app.route("/registroUsuarios.html")
+@app.route("/registroUsuarios")
 def registroUsuario():
     return render_template('registroUsuarios.html')
 
